@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:medi_deliver/screens/loginPage.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
@@ -49,10 +49,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     );
                   });
               await Future.delayed(const Duration(seconds: 2));
-              // Hide loading indicator
-              Navigator.pop(context);
 
-              Navigator.pop(context);
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ));
             },
           ),
         ),

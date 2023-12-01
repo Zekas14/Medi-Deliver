@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/customButton.dart';
 import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/screens/ExtensionFunctions.dart';
+import 'package:medi_deliver/screens/HomePage.dart';
+import 'package:medi_deliver/screens/loginPage.dart';
 
 // ignore: must_be_immutable
 class SignUp extends StatefulWidget {
@@ -42,7 +43,12 @@ class SingUpState extends State<SignUp> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              ),
               icon: const Icon(Icons.arrow_back),
             ),
             const Padding(
@@ -258,16 +264,47 @@ class SingUpState extends State<SignUp> {
                   } else {
                     if (widget.confiremPassword == widget.password) {
                       final FirebaseAuth auth = FirebaseAuth.instance;
-                      final FirebaseFirestore _firestore =
-                          FirebaseFirestore.instance;
-
                       UserCredential userCredential =
                           await auth.createUserWithEmailAndPassword(
                         email: widget.email!,
                         password: widget.password!,
                       );
+                      // ignore: unused_local_variable
                       UserCredential user = userCredential;
-                      Navigator.of(context).pushReplacementNamed('HomePage');
+                      // ignore: use_build_context_synchronously
+                      showDialog(
+                        context: context,
+                        barrierDismissible:
+                            false, // prevents dismissing by tapping outside
+                        builder: (BuildContext context) {
+                          return const AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircularProgressIndicator(
+                                  color: Color(0xFF34D49E),
+                                ),
+                                SizedBox(height: 16),
+                                Text("Logging in..."),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+
+                      // Simulate a delay (you can replace this with the actual login process)
+                      await Future.delayed(const Duration(seconds: 1));
+
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePageScreen(),
+                        ),
+                      );
                     } else {
                       context.showCustomSnackBar(
                         message: 'Re Entered Password Not Matched ',
@@ -277,21 +314,9 @@ class SingUpState extends State<SignUp> {
                   }
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Weak Password ',
-                          style: TextStyle(
-                            fontFamily: FontFamilyString,
-                            fontSize: 16,
-                          ),
-                        ),
-                        backgroundColor: linksColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                    );
+                    // ignore: use_build_context_synchronously
+                    context.showCustomSnackBar(
+                        message: 'Weak Password', color: Colors.red);
                   } else if (e.code == 'email-already-in-use') {
                     context.showCustomSnackBar(
                       message: 'The Email already used ',

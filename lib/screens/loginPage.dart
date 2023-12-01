@@ -7,10 +7,15 @@ import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/component/divider.dart';
 import 'package:medi_deliver/screens/ExtensionFunctions.dart';
 import 'package:medi_deliver/screens/HomePage.dart';
+import 'package:medi_deliver/screens/Regestration.dart';
+import 'package:medi_deliver/screens/Verification.dart';
 
+// ignore: must_be_immutable
 class Login extends StatefulWidget {
   String? email;
   String? password;
+
+  Login({super.key});
   @override
   State<StatefulWidget> createState() => LoginState();
 }
@@ -41,7 +46,7 @@ class LoginState extends State<Login> {
       await FirebaseAuth.instance.signInWithCredential(credential);
       context.showCustomSnackBar(
           message: 'Log in Successufully', color: Colors.green);
-    } on Exception catch (e) {
+    } on Exception {
       context.showCustomSnackBar(
         message: 'Log in Failed',
         color: Colors.red,
@@ -199,8 +204,12 @@ class LoginState extends State<Login> {
                     flex: 1,
                   ),
                   InkWell(
-                    onTap: () =>
-                        Navigator.of(context).pushNamed('Verification'),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Verification(),
+                      ),
+                    ),
                     // put the navigator in the on tap
                     child: const Text(
                       "Forgot Password ?",
@@ -231,6 +240,7 @@ class LoginState extends State<Login> {
                       email: widget.email!,
                       password: widget.password!,
                     );
+                    // ignore: use_build_context_synchronously
                     showDialog(
                       context: context,
                       barrierDismissible:
@@ -260,21 +270,28 @@ class LoginState extends State<Login> {
                     // Check if login is successful
                     if (credential.user != null) {
                       // Show success message
+                      // ignore: use_build_context_synchronously
                       context.showCustomSnackBar(
                           message: "Login successful", color: Colors.green);
                       await Future.delayed(Duration(seconds: 1));
                       // Navigate to the HomePage
                       // ignore: use_build_context_synchronously
-                      Navigator.of(context).pushNamed('HomePage');
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePageScreen(),
+                          ));
                     }
                   }
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'user-not-found') {
+                    // ignore: use_build_context_synchronously
                     context.showCustomSnackBar(
                       message: 'No user found for that email.',
                       color: Colors.red,
                     );
                   } else if (e.code == 'wrong-password') {
+                    // ignore: use_build_context_synchronously
                     context.showCustomSnackBar(
                       message: 'Wrong password provided for that user.',
                       color: Colors.red,
@@ -312,13 +329,18 @@ class LoginState extends State<Login> {
                       height: 50,
                     ),
                     const Text(
-                      "    You Don't Have An Account ? ",
+                      "  You Don't Have An Account ? ",
                       style: TextStyle(
                           fontFamily: FontFamilyString,
                           color: FontSecondaryColor),
                     ),
                     InkWell(
-                      onTap: () => Navigator.of(context).pushNamed('Signup'),
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUp(),
+                        ),
+                      ),
                       child: const Text(
                         "Sign up",
                         style: TextStyle(

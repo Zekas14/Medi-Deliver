@@ -5,7 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medi_deliver/component/customButton.dart';
 import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/component/divider.dart';
-import 'package:medi_deliver/screens/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/screens/HomePage.dart';
 import 'package:medi_deliver/screens/Regestration.dart';
 import 'package:medi_deliver/screens/Verification.dart';
@@ -21,13 +22,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  static const String FontFamilyString = 'DINNextLTW23';
   bool checkboxState = false;
-  static const Color FontprimaryColor = Color.fromRGBO(23, 43, 77, 1);
-  static const Color FontSecondaryColor = Color.fromARGB(255, 122, 134, 154);
-  static const Color secondaryColor = Color.fromARGB(255, 239, 240, 241);
-  static const Color linksColor = Color.fromARGB(255, 250, 132, 70);
-  GlobalKey<FormState> key = GlobalKey();
   Future signInWithGoogle() async {
     // Trigger the authentication flow
     try {
@@ -50,8 +45,8 @@ class LoginState extends State<Login> {
     } on Exception {
       // ignore: use_build_context_synchronously
       context.showCustomSnackBar(
-        message: 'Log in Failed',
-        color: Colors.red,
+        message: 'Log in With Google Failed',
+        color: errorColor,
       );
     }
   }
@@ -67,7 +62,9 @@ class LoginState extends State<Login> {
       // Once signed in, return the UserCredential
       return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
     } on Exception catch (e) {
-      print(e);
+      // ignore: use_build_context_synchronously
+      context.showCustomSnackBar(
+          message: "Log in With Facebook Failed", color: errorColor);
     }
   }
 
@@ -78,7 +75,7 @@ class LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
-        key: key,
+        key: formkey,
         child: SingleChildScrollView(
             child: Padding(
           padding: EdgeInsets.symmetric(
@@ -91,10 +88,10 @@ class LoginState extends State<Login> {
                 child: Text(
                   "Welcome to Medi-Deliver 👋",
                   style: TextStyle(
-                      color: FontprimaryColor,
+                      color: fontprimaryColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString),
+                      fontFamily: fontFamilyString),
                 ),
               ),
               const Padding(
@@ -102,34 +99,17 @@ class LoginState extends State<Login> {
                 child: Text(
                   "Log In Now To Enjoy Our Service",
                   style: TextStyle(
-                    color: FontSecondaryColor,
-                    fontFamily: FontFamilyString,
+                    color: fontSecondaryColor,
+                    fontFamily: fontFamilyString,
                     fontWeight: FontWeight.normal,
                     fontSize: 16,
                   ),
                 ),
               ),
               //Email
-              const Row(
+              Row(
                 children: [
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                      color: FontSecondaryColor,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: FontFamilyString,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    " *",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString,
-                      fontSize: 18,
-                    ),
-                  )
+                  label("Email"),
                 ],
               ),
               Padding(
@@ -144,26 +124,9 @@ class LoginState extends State<Login> {
                 ),
               ),
               //password
-              const Row(
+              Row(
                 children: [
-                  Text(
-                    "Password",
-                    style: TextStyle(
-                      color: FontSecondaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      fontFamily: FontFamilyString,
-                    ),
-                  ),
-                  Text(
-                    " *",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString,
-                      fontSize: 18,
-                    ),
-                  )
+                  label('Password'),
                 ],
               ),
               Padding(
@@ -189,7 +152,7 @@ class LoginState extends State<Login> {
                     Checkbox(
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5))),
-                        activeColor: FontSecondaryColor,
+                        activeColor: fontSecondaryColor,
                         value: checkboxState,
                         onChanged: (value) {
                           setState(() {
@@ -200,15 +163,15 @@ class LoginState extends State<Login> {
                       "Remember Me ",
                       style: TextStyle(
                         fontSize: 16,
-                        fontFamily: FontFamilyString,
-                        color: FontSecondaryColor,
+                        fontFamily: fontFamilyString,
+                        color: fontSecondaryColor,
                       ),
                     ),
                     const Spacer(
                       flex: 1,
                     ),
                     InkWell(
-                      onTap: () => Navigator.push(
+                      onTap: () => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => Verification(),
@@ -218,10 +181,11 @@ class LoginState extends State<Login> {
                       child: const Text(
                         "Forgot Password ?",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: linksColor,
-                            fontFamily: FontFamilyString),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: linksColor,
+                          fontFamily: fontFamilyString,
+                        ),
                       ),
                     ),
                   ],
@@ -231,7 +195,7 @@ class LoginState extends State<Login> {
               CustomButton(
                 text: "Log In",
                 onTap: () async {
-                  if (key.currentState!.validate()) {
+                  if (formkey.currentState!.validate()) {
                     try {
                       UserCredential credential = await userSignIn();
                       // ignore: use_build_context_synchronously
@@ -259,7 +223,7 @@ class LoginState extends State<Login> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePageScreen(),
+                            builder: (context) => const HomePageScreen(),
                           ),
                         );
                       }
@@ -268,13 +232,13 @@ class LoginState extends State<Login> {
                         // ignore: use_build_context_synchronously
                         context.showCustomSnackBar(
                           message: 'No user found for that email.',
-                          color: Colors.red,
+                          color: errorColor,
                         );
                       } else if (e.code == 'wrong-password') {
                         // ignore: use_build_context_synchronously
                         context.showCustomSnackBar(
                           message: 'Wrong password provided for that user.',
-                          color: Colors.red,
+                          color: errorColor,
                         );
                       }
                     }
@@ -312,8 +276,8 @@ class LoginState extends State<Login> {
                       const Text(
                         "  You Don't Have An Account ? ",
                         style: TextStyle(
-                            fontFamily: FontFamilyString,
-                            color: FontSecondaryColor),
+                            fontFamily: fontFamilyString,
+                            color: fontSecondaryColor),
                       ),
                       InkWell(
                         onTap: () => Navigator.pushReplacement(
@@ -327,7 +291,7 @@ class LoginState extends State<Login> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: linksColor,
-                            fontFamily: FontFamilyString,
+                            fontFamily: fontFamilyString,
                           ),
                         ),
                       ),

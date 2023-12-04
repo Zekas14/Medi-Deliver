@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:medi_deliver/screens/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 
 class HomePageScreen extends StatefulWidget {

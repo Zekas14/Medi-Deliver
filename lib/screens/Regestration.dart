@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/customButton.dart';
 import 'package:medi_deliver/component/customTextField2.dart';
-import 'package:medi_deliver/screens/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/constants.dart';
+
 import 'package:medi_deliver/screens/HomePage.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 
@@ -20,13 +22,7 @@ class SignUp extends StatefulWidget {
 }
 
 class SingUpState extends State<SignUp> {
-  static const String FontFamilyString = 'DINNextLTW23';
-
   bool checkboxState = false;
-  static const Color FontprimaryColor = Color.fromRGBO(23, 43, 77, 1);
-  static const Color FontSecondaryColor = Color.fromARGB(255, 122, 134, 154);
-  static const Color secondaryColor = Color.fromARGB(255, 239, 240, 241);
-  static const Color linksColor = Color.fromARGB(255, 250, 132, 70);
   GlobalKey<FormState> key = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -58,10 +54,11 @@ class SingUpState extends State<SignUp> {
                 child: Text(
                   "Welcome to Medi-Deliver 👋",
                   style: TextStyle(
-                      color: FontprimaryColor,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString),
+                    color: fontprimaryColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: fontFamilyString,
+                  ),
                 ),
               ),
               const Padding(
@@ -69,26 +66,16 @@ class SingUpState extends State<SignUp> {
                 child: Text(
                   "Sign Up Now To Enjoy Our Service",
                   style: TextStyle(
-                      color: FontSecondaryColor, fontFamily: FontFamilyString),
+                    color: fontSecondaryColor,
+                    fontFamily: fontFamilyString,
+                  ),
                 ),
               ),
 
-              const Row(
+              Row(
                 children: [
-                  Text(
-                    "Full Name",
-                    style: TextStyle(
-                        color: FontSecondaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FontFamilyString),
-                  ),
-                  Text(
-                    " *",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FontFamilyString),
-                  )
+                  label("Full Name"),
+                  requiredSign,
                 ],
               ),
               Padding(
@@ -103,25 +90,11 @@ class SingUpState extends State<SignUp> {
                   obscureText: false,
                 ),
               ),
-
               //Email
-
-              const Row(
+              Row(
                 children: [
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                        color: FontSecondaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FontFamilyString),
-                  ),
-                  Text(
-                    " *",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FontFamilyString),
-                  )
+                  label("Email"),
+                  requiredSign,
                 ],
               ),
               Padding(
@@ -137,25 +110,8 @@ class SingUpState extends State<SignUp> {
                 ),
               ),
               // Password
-              const Row(
-                children: [
-                  Text(
-                    "Password",
-                    style: TextStyle(
-                      color: FontSecondaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString,
-                    ),
-                  ),
-                  Text(
-                    " *",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString,
-                    ),
-                  )
-                ],
+              Row(
+                children: [label("Password"), requiredSign],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -172,24 +128,8 @@ class SingUpState extends State<SignUp> {
               ),
 
               // Re-enter password
-              const Row(
-                children: [
-                  Text(
-                    "Re Enter Password",
-                    style: TextStyle(
-                      color: FontSecondaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FontFamilyString,
-                    ),
-                  ),
-                  Text(
-                    " *",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
+              Row(
+                children: [label('Re Enter Password'), requiredSign],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -212,7 +152,7 @@ class SingUpState extends State<SignUp> {
                     Checkbox(
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5))),
-                        activeColor: FontSecondaryColor,
+                        activeColor: fontSecondaryColor,
                         value: checkboxState,
                         onChanged: (value) {
                           setState(() {
@@ -223,8 +163,8 @@ class SingUpState extends State<SignUp> {
                       "I Agree to the ",
                       style: TextStyle(
                         fontSize: 13,
-                        fontFamily: FontFamilyString,
-                        color: FontSecondaryColor,
+                        fontFamily: fontFamilyString,
+                        color: fontSecondaryColor,
                       ),
                     ),
                     const InkWell(
@@ -234,15 +174,15 @@ class SingUpState extends State<SignUp> {
                         style: TextStyle(
                             fontSize: 13,
                             color: linksColor,
-                            fontFamily: FontFamilyString),
+                            fontFamily: fontFamilyString),
                       ),
                     ),
                     const Text(
                       " of the App",
                       style: TextStyle(
                         fontSize: 13,
-                        fontFamily: FontFamilyString,
-                        color: FontSecondaryColor,
+                        fontFamily: fontFamilyString,
+                        color: fontSecondaryColor,
                       ),
                     ),
                     const Spacer(
@@ -281,19 +221,21 @@ class SingUpState extends State<SignUp> {
                       } else {
                         context.showCustomSnackBar(
                           message: 'Re Entered Password Not Matched ',
-                          color: Colors.red,
+                          color: errorColor,
                         );
                       }
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'weak-password') {
                         // ignore: use_build_context_synchronously
                         context.showCustomSnackBar(
-                            message: 'Weak Password', color: Colors.red);
+                          message: 'Weak Password',
+                          color: errorColor,
+                        );
                       } else if (e.code == 'email-already-in-use') {
                         // ignore: use_build_context_synchronously
                         context.showCustomSnackBar(
                           message: 'The Email already used ',
-                          color: Colors.red,
+                          color: errorColor,
                         );
                       }
                     } catch (e) {
@@ -315,8 +257,9 @@ class SingUpState extends State<SignUp> {
                       const Text(
                         "Already Have Account ? ",
                         style: TextStyle(
-                            fontFamily: FontFamilyString,
-                            color: FontSecondaryColor),
+                          fontFamily: fontFamilyString,
+                          color: fontSecondaryColor,
+                        ),
                       ),
                       InkWell(
                         onTap: () => Navigator.pushReplacement(
@@ -330,7 +273,7 @@ class SingUpState extends State<SignUp> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: linksColor,
-                            fontFamily: FontFamilyString,
+                            fontFamily: fontFamilyString,
                           ),
                         ),
                       ),

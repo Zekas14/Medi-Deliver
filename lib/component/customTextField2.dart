@@ -26,7 +26,12 @@ class CustomTextFeild2 extends StatefulWidget {
 class _CustomTextFeildState extends State<CustomTextFeild2> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (data) {
+        if (data!.isEmpty) {
+          return 'Field is Required';
+        }
+      },
       onChanged: widget.onChanged,
       obscureText: widget.obscureText!,
       decoration: InputDecoration(

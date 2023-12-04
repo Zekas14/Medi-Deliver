@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/screens/ExtensionFunctions.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -28,26 +29,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               // ignore: use_build_context_synchronously
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const AlertDialog(
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                            child: Text(
-                              'Thanks for using our app 👋 ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
+              context.showCustomDialog(
+                const [
+                  Center(
+                    child: Text(
+                      'Thanks for using our app 👋 ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
-                    );
-                  });
+                    ),
+                  ),
+                ],
+              );
               await Future.delayed(const Duration(seconds: 2));
 
               // ignore: use_build_context_synchronously

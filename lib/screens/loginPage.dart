@@ -44,9 +44,11 @@ class LoginState extends State<Login> {
         idToken: googleAuth?.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
+      // ignore: use_build_context_synchronously
       context.showCustomSnackBar(
           message: 'Log in Successufully', color: Colors.green);
     } on Exception {
+      // ignore: use_build_context_synchronously
       context.showCustomSnackBar(
         message: 'Log in Failed',
         color: Colors.red,
@@ -233,37 +235,17 @@ class LoginState extends State<Login> {
                         message: "Email or Password can't be Empty",
                         color: Colors.red);
                   } else {
-                    // Show loading indicator
-
-                    final credential =
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: widget.email!,
-                      password: widget.password!,
-                    );
+                    UserCredential credential = await userSignIn();
                     // ignore: use_build_context_synchronously
-                    showDialog(
-                      context: context,
-                      barrierDismissible:
-                          false, // prevents dismissing by tapping outside
-                      builder: (BuildContext context) {
-                        return const AlertDialog(
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CircularProgressIndicator(
-                                color: Color(0xFF34D49E),
-                              ),
-                              SizedBox(height: 16),
-                              Text("Logging in..."),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-
+                    context.showCustomDialog(const [
+                      CircularProgressIndicator(
+                        color: Color(0xFF34D49E),
+                      ),
+                      SizedBox(height: 16),
+                      Text("Logging in..."),
+                    ]);
                     // Simulate a delay (you can replace this with the actual login process)
                     await Future.delayed(const Duration(seconds: 1));
-
                     // Hide loading indicator
                     Navigator.pop(context);
 
@@ -277,10 +259,11 @@ class LoginState extends State<Login> {
                       // Navigate to the HomePage
                       // ignore: use_build_context_synchronously
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePageScreen(),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePageScreen(),
+                        ),
+                      );
                     }
                   }
                 } on FirebaseAuthException catch (e) {
@@ -359,5 +342,15 @@ class LoginState extends State<Login> {
         ),
       )),
     );
+  }
+
+  Future<UserCredential> userSignIn() async {
+    
+    final credential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: widget.email!,
+      password: widget.password!,
+    );
+    return credential;
   }
 }

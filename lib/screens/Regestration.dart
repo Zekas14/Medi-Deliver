@@ -344,7 +344,12 @@ class SingUpState extends State<SignUp> {
                           color: FontSecondaryColor),
                     ),
                     InkWell(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login(),
+                        ),
+                      ), 
                       child: const Text(
                         "Log In",
                         style: TextStyle(

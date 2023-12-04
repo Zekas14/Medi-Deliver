@@ -20,4 +20,18 @@ extension SnackBarExtension on BuildContext {
       ),
     );
   }
+  void showCustomDialog(List<Widget> list) {
+    showDialog(
+      context: this,
+      barrierDismissible: false, // prevents dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: list,
+          ),
+        );
+      },
+    );
+  }
 }

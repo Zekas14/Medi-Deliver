@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:medi_deliver/screens/splashScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,14 +21,7 @@ class MediDeliverApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // routes: {
-      //   'Signup': (context) => SignUp(),
-      //   'Login': (context) => Login(),
-      //   'HomePage': (context) => HomePageScreen(),
-      //   'Verification': (context) => Verification(),
-      // },
-      home: Login(),
+      home: SplashScreenWrapper(),
     );
   }
 }
-  

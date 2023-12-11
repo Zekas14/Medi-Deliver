@@ -37,8 +37,8 @@ class _ProductWidgetState extends State<ProductWidget> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 10),
-                constraints:
-                    const BoxConstraints(maxWidth: 118, maxHeight: 114),
+                constraints: const BoxConstraints(
+                    maxWidth: 118, maxHeight: 114, minHeight: 114),
                 child: Container(
                   decoration: const BoxDecoration(),
                   child: Image.asset(

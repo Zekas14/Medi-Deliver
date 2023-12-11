@@ -1,3 +1,5 @@
+import 'model/product_model.dart';
+
 List<Map<String, dynamic>> productList = [
   {
     'imagePath': 'asset/images/products/hairP1.jpg',
@@ -80,3 +82,11 @@ List<Map<String, dynamic>> productList = [
     'category': 'Health_Care',
   },
 ];
+List<Product> products = productList.map((map) {
+  return Product(
+    imagePath: map['imagePath'],
+    description: map['description'],
+    price: map['price'].toDouble(),
+    category: map['category'],
+  );
+}).toList();

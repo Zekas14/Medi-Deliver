@@ -128,9 +128,7 @@ class homPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: InkWell(
-                                onTap: () {
-                                  print(productList[0]["price"].runtimeType);
-                                },
+                                onTap: () {},
                                 child: Card(
                                     color: Colors.grey[200],
                                     child: Image.asset(

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/screens/hom_page.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:medi_deliver/screens/splashScreen.dart';
 import 'firebase_options.dart';
+
+// void main() {
+//   runApp(MaterialApp(
+//     debugShowCheckedModeBanner: false,
+//     home: homPage(),
+//   ));
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

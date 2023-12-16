@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/core/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/model/product.dart';
 
 class AddToCartBtn extends StatelessWidget {
-  const AddToCartBtn({super.key});
+  Product product;
+  AddToCartBtn({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        print("mango2");
+        addToCart(product.name,product.description, product.price, product.imagePath);
       },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10),
         minimumSize: const Size(164, 45),
-        primary: const Color(0xFF34D49E),
+        primary: buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),

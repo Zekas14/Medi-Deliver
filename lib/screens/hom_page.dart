@@ -1,19 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:medi_deliver/component/ProductWidget.dart';
+import 'package:medi_deliver/core/ExtensionFunctions.dart';
+import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/dummy_product_list.dart';
-import 'not_usable_screens/categories_screen.dart';
+import 'package:medi_deliver/model/product.dart';
+import 'package:medi_deliver/screens/itemPage.dart';
+import 'package:medi_deliver/screens/searchPage.dart';
 
 class homPage extends StatelessWidget {
-  List<Map<String, String>> categoriesList = [
-    {
-      "name": "Health care",
-      "imagePath": "asset/images/categories/category3.png"
-    },
-    {"name": "Skin care", "imagePath": "asset/images/categories/category2.jpg"},
-    {"name": "Hair care", "imagePath": "asset/images/categories/category1.jpg"},
-    {"name": "Baby care", "imagePath": "asset/images/categories/category4.jpg"},
-  ];
   homPage({
     super.key,
   });
@@ -27,49 +24,124 @@ class homPage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(
-                        'asset/images/blank-profile-picture-973460_960_720.webp'),
+                  Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border(
+                          left: BorderSide(
+                        color: buttonColor,
+                        width: 2,
+                      )),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('asset/images/profile.png'),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hi, Ahmed'),
-                        Text('Assiut, Assiut city')
+                        const Text(
+                          'Hi, Ahmed',
+                          style: TextStyle(
+                            fontFamily: fontFamilyString,
+                            fontSize: 17,
+                            color: buttonColor,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'asset/images/map.png',
+                              width: 20,
+                            ),
+                            const Text(
+                              'Assiut, Assiut city',
+                              style: TextStyle(
+                                fontFamily: 'DINNextLTW23s',
+                                fontSize: 15,
+                                color: fontSecondaryColor,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.add_alert)
+                  const Expanded(child: SizedBox()),
+                  Image.asset('asset/images/notification.png')
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
-              TextField(
-                decoration: InputDecoration(
-                    hintText: 'Search For A medicine A specific Product',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    suffixIcon: IconButton(
-                        onPressed: () {}, icon: Icon(Icons.qr_code_scanner)),
-                    prefixIcon: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.search_rounded,
-                          size: 40,
-                        ))),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchPage(),
+                      ));
+                },
+                child: TextField(
+                  enabled: false,
+                  decoration: InputDecoration(
+                      hintText: 'Search For A medicine A specific Product',
+                      hintStyle: const TextStyle(
+                        fontFamily: fontFamilyString,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 234, 234, 234),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 234, 234, 234),
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 234, 234, 234),
+                        ),
+                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => QRScannerPage(),
+                            //   ),
+                            // );
+                          },
+                          icon: Image.asset('asset/images/barcode.png')),
+                      prefixIcon: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchPage(),
+                                ));
+                          },
+                          icon: Image.asset('asset/images/search.png'))),
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               // image Slider
               ImageSlideshow(
-                  indicatorColor: const Color(0xFF34D49E),
-                  indicatorBackgroundColor: Colors.grey,
+                  indicatorColor: buttonColor,
+                  indicatorBackgroundColor:
+                      const Color.fromARGB(255, 213, 213, 213),
                   autoPlayInterval: 3000,
                   isLoop: true,
                   children: [
@@ -78,19 +150,22 @@ class homPage extends StatelessWidget {
                     Image.asset('asset/images/categories/category1.jpg'),
                     Image.asset('asset/images/categories/category2.jpg'),
                   ]),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               //--------------Start of Categories-------------------------
               Container(
                 alignment: Alignment.centerLeft,
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Categories',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: fontFamilyString,
+                      ),
                     ),
                   ],
                 ),
@@ -102,8 +177,25 @@ class homPage extends StatelessWidget {
                   itemCount: categoriesList.length,
                   itemBuilder: (context, index) {
                     return CategoryCard(
-                        name: categoriesList[index]["name"]!,
-                        imagePath: categoriesList[index]["imagePath"]!);
+                      name: categoriesList[index]["name"]!,
+                      imagePath: categoriesList[index]["imagePath"]!,
+                      onTap: () {
+                        categoryList = productList
+                            .where((product) =>
+                                product.category.toLowerCase() ==
+                                categoriesList[index]["name"]!.toLowerCase())
+                            .toList();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ItemsPage(
+                              products: categoryList,
+                              categoryName: categoriesList[index]["name"]!,
+                            ),
+                          ),
+                        );
+                      },
+                    );
                   },
 
                   // return CategoryCard();
@@ -111,30 +203,45 @@ class homPage extends StatelessWidget {
               ),
               //  -------------------------Start of Items List
               Container(
-                margin: EdgeInsets.only(top: 15),
+                margin: const EdgeInsets.only(top: 15),
                 alignment: Alignment.centerLeft,
-                child: Text('Products',
+                child: const Text('Popular Products',
                     maxLines: 1,
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: fontFamilyString,
                       overflow: TextOverflow.ellipsis,
                     )),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 height: 300,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: productList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: ProductWidget(
-                        product: products[index],
-                      ),
-                    );
-                  },
-                ),
+                child: StreamBuilder<List<Product>>(
+                    stream: fetchProductsStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        productList = snapshot.data!;
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: productList.length,
+                          itemBuilder: (context, index) {
+                            categoryList.addAll(productList);
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ProductWidget(
+                                product: productList[index],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    }),
               )
             ],
           )),
@@ -145,8 +252,11 @@ class homPage extends StatelessWidget {
 
 class CategoryCard extends StatelessWidget {
   String name;
+  final VoidCallback onTap;
+
   String imagePath;
   CategoryCard({
+    required this.onTap,
     required this.name,
     required this.imagePath,
     super.key,
@@ -154,11 +264,15 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 5,
+      ),
       child: Column(
         children: [
           Expanded(
             child: InkWell(
+              onTap: onTap,
               child: Card(
                   color: Colors.grey[200],
                   child: Image.asset(
@@ -169,7 +283,11 @@ class CategoryCard extends StatelessWidget {
           ),
           Text(
             name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 15,
+              fontFamily: fontFamilyString,
+            ),
           ),
         ],
       ),

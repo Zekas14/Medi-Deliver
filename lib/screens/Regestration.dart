@@ -5,8 +5,8 @@ import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
 
-import 'package:medi_deliver/screens/HomePage.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
+import 'package:medi_deliver/screens/screens_holder_nav.dart';
 
 // ignore: must_be_immutable
 class SignUp extends StatefulWidget {
@@ -129,7 +129,7 @@ class SingUpState extends State<SignUp> {
 
               // Re-enter password
               Row(
-                children: [label('Re Enter Password'), requiredSign],
+                children: [label('Re Enter Password'), requiredSign,],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -215,7 +215,7 @@ class SingUpState extends State<SignUp> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePageScreen(),
+                            builder: (context) => ScreensHolderNav(),
                           ),
                         );
                       } else {

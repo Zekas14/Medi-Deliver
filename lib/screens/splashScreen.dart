@@ -24,12 +24,13 @@ class SplashScreenWrapper extends StatefulWidget {
 
 class _SplashScreenWrapperState extends State<SplashScreenWrapper> {
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     Timer(
-      Duration(seconds: 3), // Adjust the duration as needed
+      Duration(seconds: 1), // Adjust the duration as needed
       () {
-        Navigator.of(context).pushReplacement(
+        Navigator.pushReplacement(
+          context,
           MaterialPageRoute(
             builder: (context) => Login(), // Replace with your main screen
           ),

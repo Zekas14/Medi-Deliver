@@ -4,7 +4,6 @@ import 'package:medi_deliver/component/searchfield.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/product.dart';
-import 'package:medi_deliver/screens/HomePage.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -41,11 +40,8 @@ class _SearchPageState extends State<SearchPage> {
                 size: 26,
               ),
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.pop(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePageScreen(),
-                  ),
                 );
               }),
         ),
@@ -58,6 +54,10 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           children: [
             CustomTextFormField(
+              textStyle:const TextStyle(
+                fontFamily: fontFamilyString,
+                fontSize: 15,
+              ),
               onChanged: (data) {
                 setState(() {
                   filteredProductList = productList
@@ -67,36 +67,26 @@ class _SearchPageState extends State<SearchPage> {
                       .toList();
                 });
               },
-              borderDecoration: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(
-                  color: outlineBorderColor,
-                  width: 1,
-                ),
-              ),
-              fillColor: backgroundColor,
               controller: productnameController,
               textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: 30,
             ),
-            Container(
-              child: Expanded(
-                child: ListView.builder(
-                    itemCount: filteredProductList.length,
-                    itemBuilder: (context, index) {
-                      if (index < productList.length) {
-                        return ItemContainer(
-                          product: filteredProductList[index],
-                        );
-                      } else {
-                        // Handle index out of bounds, possibly show an error message or a default widget
-                        return const SizedBox
-                            .shrink(); // or any other default widget
-                      }
-                    }),
-              ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: filteredProductList.length,
+                  itemBuilder: (context, index) {
+                    if (index < productList.length) {
+                      return ItemContainer(
+                        product: filteredProductList[index],
+                      );
+                    } else {
+                      // Handle index out of bounds, possibly show an error message or a default widget
+                      return const SizedBox
+                          .shrink(); // or any other default widget
+                    }
+                  }),
             )
           ],
         ),

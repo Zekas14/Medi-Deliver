@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medi_deliver/screens/HomePage.dart';
+import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/screens/InvoiceScreen.dart';
+import 'package:medi_deliver/screens/cartPage.dart';
 import 'package:medi_deliver/screens/hom_page.dart';
-import 'package:medi_deliver/screens/not_usable_screens/cart_screen.dart';
 
 class ScreensHolderNav extends StatefulWidget {
   @override
@@ -10,12 +11,24 @@ class ScreensHolderNav extends StatefulWidget {
 
 class _ScreensHolderNavState extends State<ScreensHolderNav> {
   int _currentIndex = 0;
+  final List<String> _selectedImages = [
+    'asset/images/home_selected.png',
+    'asset/images/orders_selected.png',
+    'asset/images/cart_selected.png',
+    'asset/images/profile_selected.png',
+  ];
 
+  final List<String> _unselectedImages = [
+    'asset/images/home.png',
+    'asset/images/orders.png',
+    'asset/images/cart.png',
+    'asset/images/profile_icon.png',
+  ];
   final List<Widget> _screens = [
     homPage(),
-    HomePageScreen(),
-    CartScreen(),
-    homPage(),
+    Scaffold(),
+    CartPage(),
+    Scaffold(),
 
     //orders here,
     //cart here,
@@ -41,22 +54,42 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset(
+              _currentIndex == 0 ? _selectedImages[0] : _unselectedImages[0],
+              width: 24,
+              height: 24,
+            ),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag), // Change to the Shopping Bag icon
-            label: "Orders", // Change the label to "Orders"
+            icon: Image.asset(
+              _currentIndex == 1 ? _selectedImages[1] : _unselectedImages[1],
+              width: 24,
+              height: 24,
+            ),
+            label: "Orders",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
+            icon: Image.asset(
+              _currentIndex == 2 ? _selectedImages[2] : _unselectedImages[2],
+              width: 24,
+              height: 24,
+            ),
             label: "Cart",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
+            icon: Image.asset(
+              _currentIndex == 3 ? _selectedImages[3] : _unselectedImages[3],
+              width: 24,
+              height: 24,
+            ),
             label: "Profile",
           ),
         ],
+        selectedLabelStyle: const TextStyle(
+          fontFamily: fontFamilyString,
+          fontSize: 16,
+        ),
       ),
     );
   }

@@ -7,9 +7,9 @@ import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/component/divider.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/screens/HomePage.dart';
 import 'package:medi_deliver/screens/Regestration.dart';
 import 'package:medi_deliver/screens/Verification.dart';
+import 'package:medi_deliver/screens/screens_holder_nav.dart';
 
 // ignore: must_be_immutable
 class Login extends StatefulWidget {
@@ -223,7 +223,7 @@ class LoginState extends State<Login> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePageScreen(),
+                            builder: (context) =>  ScreensHolderNav(),
                           ),
                         );
                       }

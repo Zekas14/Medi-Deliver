@@ -1,17 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/model/product.dart';
 import 'add_to_cart_btn.dart';
 
 class ProductWidget extends StatefulWidget {
-  String description;
-  String? imagePath;
-  double price;
-
+  Product product;
   ProductWidget({
     Key? key,
-    required this.description,
-    this.imagePath,
-    required this.price,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -36,13 +33,13 @@ class _ProductWidgetState extends State<ProductWidget> {
           Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 10),
+                margin:const EdgeInsets.only(top: 10),
                 constraints: const BoxConstraints(
                     maxWidth: 118, maxHeight: 114, minHeight: 114),
                 child: Container(
                   decoration: const BoxDecoration(),
                   child: Image.asset(
-                    widget.imagePath ?? "asset/images/default_img.jpeg",
+                    widget.product.imagePath ?? "asset/images/default_img.jpeg",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -52,35 +49,41 @@ class _ProductWidgetState extends State<ProductWidget> {
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 5),
                     child: Text(
-                      widget.description,
+                      widget.product.description,
                       maxLines: 2,
                       style: const TextStyle(
                         overflow: TextOverflow.ellipsis,
-                        fontSize: 13,
+                        fontSize: 15,
+                        fontFamily: fontFamilyString,
                       ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 5),
+                    margin: EdgeInsets.only(bottom: 10),
                     child: Text(
-                      "${widget.price.toStringAsFixed(2)}",
-                      style: TextStyle(color: Color(0xFFE34C55)),
+                      "${widget.product.price.toStringAsFixed(2)} EGP",
+                      style: const TextStyle(
+                          color: Color(0xFFE34C55),
+                          fontFamily: fontFamilyString,
+                          fontSize: 16),
                     ),
                   ),
                 ],
               ),
-              AddToCartBtn(),
+              AddToCartBtn(
+                product: widget.product,
+              ),
             ],
           ),
           Positioned(
             top: 0,
-            left: 135,
+            left: 140,
             right: 0,
             child: InkWell(
               child: Icon(
                 _isFavorited ? Icons.favorite : Icons.favorite_border,
                 color: _isFavorited ? Colors.red : Colors.grey,
-                size: 30.0,
+                size: 25.0,
               ),
               onTap: () {
                 setState(() {

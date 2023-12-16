@@ -4,6 +4,7 @@ import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
 import 'add_to_cart_btn.dart';
 
+// ignore: must_be_immutable
 class ProductWidget extends StatefulWidget {
   Product product;
   ProductWidget({
@@ -39,7 +40,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 child: Container(
                   decoration: const BoxDecoration(),
                   child: Image.asset(
-                    widget.product.imagePath ?? "asset/images/default_img.jpeg",
+                    widget.product.imagePath,
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -61,7 +61,8 @@ class LoginState extends State<Login> {
 
       // Once signed in, return the UserCredential
       return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    } on Exception catch (e) {
+    } on Exception {
+
       // ignore: use_build_context_synchronously
       context.showCustomSnackBar(
           message: "Log in With Facebook Failed", color: errorColor);

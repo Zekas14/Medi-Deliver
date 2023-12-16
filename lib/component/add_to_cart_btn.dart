@@ -4,6 +4,7 @@ import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
 
+// ignore: must_be_immutable
 class AddToCartBtn extends StatelessWidget {
   Product product;
   AddToCartBtn({super.key, required this.product});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/ProductWidget.dart';
-import 'package:medi_deliver/component/add_to_cart_btn.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
 
@@ -55,6 +54,7 @@ class _ItemsPageState extends State<ItemsPage> {
                     // Return an empty container if the index is out of range
                     return Container();
                   }
+                  return Container();
                 },
               ),
             ),

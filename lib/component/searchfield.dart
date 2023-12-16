@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medi_deliver/core/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+  const CustomTextFormField({
     Key? key,
     this.onChanged,
     this.controller,
@@ -63,63 +62,5 @@ class CustomTextFormField extends StatelessWidget {
       ),
     );
 
-    //   return alignment != null
-    //       ? Align(
-    //           alignment: alignment ?? Alignment.center,
-    //           child: textFormFieldWidget,
-    //         )
-    //       : textFormFieldWidget;
-    // }
-
-    // Widget get textFormFieldWidget => SizedBox(
-    //       width: width ?? double.maxFinite,
-    //       child: TextFormField(
-    //         onChanged: onChanged,
-    //         controller: controller,
-    //         focusNode: focusNode ?? FocusNode(),
-    //         autofocus: autofocus!,
-    //         style: textStyle,
-    //         obscureText: obscureText!,
-    //         textInputAction: textInputAction,
-    //         keyboardType: textInputType,
-    //         maxLines: maxLines ?? 1,
-    //         decoration: decoration,
-    //         validator: validator,
-    //       ),
-    //     );
-    // InputDecoration get decoration => InputDecoration(
-    //       hintText: hintText ?? "",
-    //       hintStyle: hintStyle,
-    //       prefixIcon: prefix,
-    //       prefixIconConstraints: prefixConstraints,
-    //       suffixIcon: suffix,
-    //       suffixIconConstraints: suffixConstraints,
-    //       isDense: true,
-    //       contentPadding: contentPadding,
-    //       fillColor: fillColor,
-    //       filled: filled,
-    //       border: borderDecoration ??
-    //           OutlineInputBorder(
-    //             borderRadius: BorderRadius.circular(10),
-    //             borderSide: BorderSide(
-    //               color: backgroundColor,
-    //               width: 1,
-    //             ),
-    //           ),
-    //       enabledBorder: borderDecoration ??
-    //           OutlineInputBorder(
-    //             borderRadius: BorderRadius.circular(10),
-    //             borderSide: BorderSide(
-    //               width: 1,
-    //             ),
-    //           ),
-    //       focusedBorder: borderDecoration ??
-    //           OutlineInputBorder(
-    //             borderRadius: BorderRadius.circular(10),
-    //             borderSide: BorderSide(
-    //               width: 1,
-    //             ),
-    //           ),
-    //     );
-  }
+      }
 }

@@ -1,6 +1,3 @@
-import 'package:medi_deliver/component/MedicineItem.dart';
-import 'package:medi_deliver/core/ExtensionFunctions.dart';
-import 'package:medi_deliver/model/orderContent.dart';
 import 'package:medi_deliver/model/product.dart';
 
  List<Product> productList=[];

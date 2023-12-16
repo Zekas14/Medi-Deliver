@@ -1,14 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/orderContent.dart';
-import 'package:medi_deliver/model/product.dart';
 
+// ignore: must_be_immutable
 class CartContainer extends StatefulWidget {
   OrderContent orderContent;
-  int TotalPriceOfMid = 0;
-  CartContainer({required this.orderContent});
+  int totalPriceOfMid = 0;
+   CartContainer({super.key, required this.orderContent});
 
   @override
   State<CartContainer> createState() => _ItemContianerState();
@@ -18,8 +16,8 @@ class _ItemContianerState extends State<CartContainer> {
   @override
   Widget build(BuildContext context) {
     bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-    widget.TotalPriceOfMid =
-        (widget.orderContent.quantity! * widget.orderContent.product!.price);
+    widget.totalPriceOfMid =
+        (widget.orderContent.quantity * widget.orderContent.product.price);
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -86,7 +84,7 @@ class _ItemContianerState extends State<CartContainer> {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           SizedBox(
             height: isSmallScreen ? 5 : 10,
           ),
@@ -107,9 +105,9 @@ class _ItemContianerState extends State<CartContainer> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 padding:
-                    EdgeInsets.only(left: 10, bottom: 6, right: 10, top: 4),
+                    const EdgeInsets.only(left: 10, bottom: 6, right: 10, top: 4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
@@ -132,17 +130,15 @@ class _ItemContianerState extends State<CartContainer> {
                     widget.orderContent.quantity++;
                   });
                 },
-                child: Container(
-                  child: Image.asset('asset/images/plus.png'),
-                ),
+                child: Image.asset('asset/images/plus.png'),
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 1),
                 child: Text(
-                  'Total: ${widget.TotalPriceOfMid}',
+                  'Total: ${widget.totalPriceOfMid}',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/add_to_cart_btn.dart';
-import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/product.dart';
 
 // ignore: must_be_immutable

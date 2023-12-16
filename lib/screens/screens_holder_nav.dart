@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/screens/InvoiceScreen.dart';
 import 'package:medi_deliver/screens/cartPage.dart';
 import 'package:medi_deliver/screens/hom_page.dart';
 
 class ScreensHolderNav extends StatefulWidget {
+  const ScreensHolderNav({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ScreensHolderNavState createState() => _ScreensHolderNavState();
 }
 
@@ -26,9 +28,9 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
   ];
   final List<Widget> _screens = [
     homPage(),
-    Scaffold(),
+   const Scaffold(),
     CartPage(),
-    Scaffold(),
+    const Scaffold(),
 
     //orders here,
     //cart here,
@@ -44,7 +46,7 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.transparent,
-        selectedItemColor: Color(0xFF34D49E), // Set the desired color
+        selectedItemColor: buttonColor, // Set the desired color
         unselectedItemColor: Colors.grey,
         currentIndex: _currentIndex,
         onTap: (index) {

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medi_deliver/component/cartContianer.dart';
 import 'package:medi_deliver/component/customButton.dart';
-import 'package:medi_deliver/dummy_product_list.dart'; // Import your model or data class
 import 'package:medi_deliver/model/orderContent.dart';
 import 'package:medi_deliver/model/product.dart';
-import 'package:medi_deliver/screens/InvoiceScreen.dart';
 import 'package:medi_deliver/screens/invoice.dart';
 
+// ignore: must_be_immutable
 class CartPage extends StatefulWidget {
   OrderContent? orderContent;
+
+  CartPage({super.key});
   @override
   State<CartPage> createState() => _CartPageState();
 }

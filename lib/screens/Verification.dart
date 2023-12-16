@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/customButton.dart';
-import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/screens/loginPage.dart';

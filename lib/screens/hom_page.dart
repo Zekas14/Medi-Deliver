@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:medi_deliver/component/ProductWidget.dart';
@@ -10,8 +8,9 @@ import 'package:medi_deliver/model/product.dart';
 import 'package:medi_deliver/screens/itemPage.dart';
 import 'package:medi_deliver/screens/searchPage.dart';
 
+// ignore: camel_case_types
 class homPage extends StatelessWidget {
-  homPage({
+   const homPage({
     super.key,
   });
 
@@ -19,7 +18,7 @@ class homPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          margin: EdgeInsets.all(25),
+          margin: const EdgeInsets.all(25),
           child: Column(
             children: [
               Row(
@@ -250,6 +249,7 @@ class homPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CategoryCard extends StatelessWidget {
   String name;
   final VoidCallback onTap;

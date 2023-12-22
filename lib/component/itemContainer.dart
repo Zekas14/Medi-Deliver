@@ -82,6 +82,10 @@ class ItemContainer extends StatelessWidget {
     return InkWell(
       onTap: () {
         Provider.of<Cart>(context, listen: false).addToCart(product);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("added to cart"),
+          duration: Duration(milliseconds: 500),
+        ));
       },
       child: Container(
         padding: const EdgeInsets.only(

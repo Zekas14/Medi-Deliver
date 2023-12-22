@@ -28,13 +28,13 @@ class _ProductWidgetState extends State<ProductWidget> {
         borderRadius: const BorderRadius.all(Radius.circular(5)),
         border: Border.all(color: const Color(0xFFEAEAEA)),
       ),
-      constraints: const BoxConstraints(maxWidth: 180, maxHeight: 282),
+      constraints: const BoxConstraints(maxWidth: 174, maxHeight: 282),
       child: Stack(
         children: [
           Column(
             children: [
               Container(
-                margin:const EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 10),
                 constraints: const BoxConstraints(
                     maxWidth: 118, maxHeight: 114, minHeight: 114),
                 child: Container(

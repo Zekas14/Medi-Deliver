@@ -26,7 +26,7 @@ class _ItemsPageState extends State<ItemsPage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.only(top: 8, bottom: 8),
         child: Column(
           children: [
             Expanded(
@@ -38,7 +38,7 @@ class _ItemsPageState extends State<ItemsPage> {
                     // Build a row with two ProductWidget if the next index is also valid
                     if (index + 1 < widget.products.length) {
                       return Padding(
-                        padding: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.only(top: 4, bottom: 4),
                         child: Row(
                           children: [
                             ProductWidget(product: widget.products[index]),

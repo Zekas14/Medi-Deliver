@@ -17,9 +17,6 @@ class AddToCartBtn extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         Provider.of<Cart>(context, listen: false).addToCart(product);
-        print(Provider.of<Cart>(context, listen: false).cartContianers);
-        print(product.name);
-        print(Provider.of<Cart>(context, listen: false).cartItemsList);
       },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10),

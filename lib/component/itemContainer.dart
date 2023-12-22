@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/dummy_product_list.dart';
+import 'package:medi_deliver/provider/model/cartProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../model/product.dart';
 // import 'package:medi_deliver/model/product.dart';
@@ -59,7 +61,7 @@ class ItemContainer extends StatelessWidget {
                 flex: 1,
               ),
               Center(
-                child: customButton(),
+                child: customButton(context),
               ),
             ],
           ),
@@ -76,12 +78,11 @@ class ItemContainer extends StatelessWidget {
     );
   }
 
-  Widget customButton() {
+  Widget customButton(BuildContext context) {
     return InkWell(
-      // onTap: () {
-      //   Cart.add(product);
-      //   print(Cart[0].description);
-      // },
+      onTap: () {
+        Provider.of<Cart>(context, listen: false).addToCart(product);
+      },
       child: Container(
         padding: const EdgeInsets.only(
           left: 22,

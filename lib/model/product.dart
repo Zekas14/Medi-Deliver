@@ -13,6 +13,28 @@ class Product {
     required this.category,
     required this.price,
   });
+  // Override == operator for equality comparison
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Product &&
+        other.name == name &&
+        other.imagePath == imagePath &&
+        other.description == description &&
+        other.category == category &&
+        other.price == price;
+  }
+
+  // Override hashCode for consistency with == operator
+  @override
+  int get hashCode {
+    return name.hashCode ^
+        imagePath.hashCode ^
+        description.hashCode ^
+        category.hashCode ^
+        price.hashCode;
+  }
 }
 
 Future<void> addProductsToFirestore(List<Product> products) async {
@@ -21,8 +43,8 @@ Future<void> addProductsToFirestore(List<Product> products) async {
 
   for (Product product in products) {
     await productsCollection.add({
-      'image' : product.imagePath,
-      'description' : product.description,
+      'image': product.imagePath,
+      'description': product.description,
       'name': product.name,
       'category': product.category,
       'price': product.price,

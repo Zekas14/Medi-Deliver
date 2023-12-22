@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:medi_deliver/screens/screens_holder_nav.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 // void main() {
@@ -26,9 +29,16 @@ class MediDeliverApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Login(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Login(),
+      ),
     );
   }
 }

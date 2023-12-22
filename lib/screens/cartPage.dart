@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medi_deliver/component/cartContianer.dart';
 import 'package:medi_deliver/component/customButton.dart';
-import 'package:medi_deliver/model/orderContent.dart';
+import 'package:medi_deliver/model/cartItemModel.dart';
 import 'package:medi_deliver/model/product.dart';
+import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:medi_deliver/screens/invoice.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class CartPage extends StatefulWidget {
-  OrderContent? orderContent;
+  CartItem? cartItem;
 
   CartPage({super.key});
   @override
@@ -35,25 +37,30 @@ class _CartPageState extends State<CartPage> {
                 } else {
                   final documents = snapshot.data!.docs;
 
-                  return ListView.builder(
-                    itemCount: documents.length,
-                    itemBuilder: (context, index) {
-                      final document = documents[index];
-                      final product = Product(
-                        name: document['name'],
-                        imagePath: document['image'],
-                        // Assuming you have a Product class or similar
-                        description: document['description'],
-                        price: document['price'] ?? 0.0,
-                        category:'Baby Care' ,
-                        // Add more fields based on your data model
-                      );
-                      widget.orderContent =
-                          OrderContent(product: product, quantity: 1);
-                      totalPrice += product.price;
+                  return Consumer<Cart>(
+                    builder: (context, cart, child) {
+                      return ListView.builder(
+                        itemCount: Provider.of<Cart>(context, listen: false)
+                            .cartContianers
+                            .length,
+                        itemBuilder: (context, index) {
+                          // final document = documents[index];
+                          // final product = Product(
+                          //   name: document['name'],
+                          //   imagePath: document['image'],
+                          //   // Assuming you have a Product class or similar
+                          //   description: document['description'],
+                          //   price: document['price'] ?? 0.0,
+                          //   category: 'Baby Care',
+                          //   // Add more fields based on your data model
+                          // );
+                          // widget.cartItem =
+                          //     CartItem(product: product, quantity: 1);
+                          // totalPrice += product.price;
 
-                      return CartContainer(
-                        orderContent: widget.orderContent!,
+                          return Provider.of<Cart>(context, listen: false)
+                              .cartContianers[index];
+                        },
                       );
                     },
                   );
@@ -84,11 +91,10 @@ class _CartPageState extends State<CartPage> {
   Future<void> addToOrderContent() async {
     try {
       await FirebaseFirestore.instance.collection('order_content').add({
-        'quantity': widget.orderContent!.quantity,
+        'quantity': widget.cartItem!.quantity,
         'product': {
-          'description': widget.orderContent!.product.description,
-          'price': widget.orderContent!.product.price *
-              widget.orderContent!.quantity,
+          'description': widget.cartItem!.product.description,
+          'price': widget.cartItem!.product.price * widget.cartItem!.quantity,
         },
         // Add more fields based on your data model
       });

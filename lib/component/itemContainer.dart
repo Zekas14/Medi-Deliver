@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:medi_deliver/component/add_to_cart_btn.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/model/product.dart';
+import 'package:medi_deliver/dummy_product_list.dart';
+
+import '../model/product.dart';
+// import 'package:medi_deliver/model/product.dart';
 
 // ignore: must_be_immutable
 class ItemContainer extends StatelessWidget {
@@ -50,12 +54,12 @@ class ItemContainer extends StatelessWidget {
           ),
           Row(
             children: [
-              priceText(context, product.price),
+              priceText(context, product.price.toDouble()),
               const Spacer(
                 flex: 1,
               ),
               Center(
-                child: AddToCartBtn(product: product),
+                child: customButton(),
               ),
             ],
           ),
@@ -72,7 +76,38 @@ class ItemContainer extends StatelessWidget {
     );
   }
 
-  Widget priceText(BuildContext context, int price) {
+  Widget customButton() {
+    return InkWell(
+      // onTap: () {
+      //   Cart.add(product);
+      //   print(Cart[0].description);
+      // },
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 22,
+          right: 22,
+          top: 12,
+          bottom: 12,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: buttonColor,
+        ),
+        child: const Center(
+          child: Text(
+            'Add to Cart',
+            style: TextStyle(
+              fontSize: 14,
+              color: backgroundColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget priceText(BuildContext context, double price) {
     return RichText(
         text: TextSpan(style: DefaultTextStyle.of(context).style, children: [
       const TextSpan(

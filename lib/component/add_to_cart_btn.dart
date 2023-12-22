@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/model/cartProvider.dart';
 
 // ignore: must_be_immutable
 class AddToCartBtn extends StatelessWidget {
@@ -13,7 +16,10 @@ class AddToCartBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        addToCart(product.name,product.description, product.price, product.imagePath);
+        Provider.of<Cart>(context, listen: false).addToCart(product);
+        print(Provider.of<Cart>(context, listen: false).cartContianers);
+        print(product.name);
+        print(Provider.of<Cart>(context, listen: false).cartItemsList);
       },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10),

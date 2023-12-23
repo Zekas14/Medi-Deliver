@@ -26,11 +26,13 @@ class Cart extends ChangeNotifier {
   }
 
   void removeFromCart(CartItem cartItem) {
-    if (!cartItemsList.isEmpty) {
+    if (cartItemsList.isNotEmpty) {
       cartItemsList.remove(cartItemsList
           .firstWhere((element) => element.product == cartItem.product));
-      cartContianers.remove(cartContianers.firstWhere(
-          (element) => element.cartItem.product == cartItem.product));
+      cartContianers.remove(
+        cartContianers.firstWhere(
+            (element) => element.cartItem.product == cartItem.product),
+      );
 
       notifyListeners();
     }

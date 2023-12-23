@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/cartItemModel.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:provider/provider.dart';
@@ -104,6 +105,12 @@ class _ItemContianerState extends State<CartContainer> {
                         } else {
                           Provider.of<Cart>(context, listen: false)
                               .removeFromCart(widget.cartItem);
+                          cartItem.remove(
+                            (
+                              cartItem.where((element) =>
+                                  element.product == widget.cartItem),
+                            ),
+                          );
                         }
                       });
                     },

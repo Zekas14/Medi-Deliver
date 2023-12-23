@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/customButton.dart';
 import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/provider/userProvider.dart';
+import 'package:medi_deliver/model/user.dart' as model;
 
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:medi_deliver/screens/screens_holder_nav.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SignUp extends StatefulWidget {
@@ -129,7 +133,10 @@ class SingUpState extends State<SignUp> {
 
               // Re-enter password
               Row(
-                children: [label('Re Enter Password'), requiredSign,],
+                children: [
+                  label('Re Enter Password'),
+                  requiredSign,
+                ],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -198,7 +205,7 @@ class SingUpState extends State<SignUp> {
                   if (key.currentState!.validate()) {
                     try {
                       if (widget.confiremPassword == widget.password) {
-                        await userRegestration();
+                        await userRegistration();
                         // ignore: use_build_context_synchronously
                         context.showCustomDialog(const [
                           CircularProgressIndicator(
@@ -215,7 +222,7 @@ class SingUpState extends State<SignUp> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ScreensHolderNav(),
+                            builder: (context) => const ScreensHolderNav(),
                           ),
                         );
                       } else {
@@ -288,14 +295,35 @@ class SingUpState extends State<SignUp> {
       ),
     );
   }
-
-  Future<void> userRegestration() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+Future<void> userRegistration() async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
       email: widget.email!,
       password: widget.password!,
     );
-    // ignore: unused_local_variable
-    UserCredential user = userCredential;
+
+    // Access the UserProvider and set the loggedInUser
+    Provider.of<UserProvider>(context, listen: false)
+        .setLoggedInUser(model.User(
+      uid: userCredential.user?.uid,
+      fullName: widget.fullName,
+      email: widget.email,
+    ));
+
+    // Add user data to Firestore
+    await FirebaseFirestore.instance.collection('users').doc(userCredential.user?.uid).set({
+      'fullName': widget.fullName,
+      'email': widget.email,
+      // Add other user data fields as needed
+    });
+
+    // ... rest of your code ...
+  } on FirebaseAuthException catch (e) {
+    // Handle FirebaseAuthException
+  } catch (e) {
+    // Handle other exceptions
   }
+}
+
 }

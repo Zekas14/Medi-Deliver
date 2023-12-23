@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
+import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:medi_deliver/screens/screens_holder_nav.dart';
@@ -33,11 +34,15 @@ class MediDeliverApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => Cart(),
-        )
+        ),
+         ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      )
+      
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: ScreensHolderNav(),
+        home: Login(),
       ),
     );
   }

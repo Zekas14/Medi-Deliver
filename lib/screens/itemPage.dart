@@ -30,31 +30,21 @@ class _ItemsPageState extends State<ItemsPage> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 4.0,
+                  crossAxisSpacing: 4.0,
+                ),
                 itemCount: widget.products.length,
                 itemBuilder: (context, index) {
                   // Check if the current index is within the valid range
                   if (index < widget.products.length) {
-                    // Build a row with two ProductWidget if the next index is also valid
-                    if (index + 1 < widget.products.length) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 4, bottom: 4),
-                        child: Row(
-                          children: [
-                            ProductWidget(product: widget.products[index]),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            ProductWidget(product: widget.products[index + 1]),
-                          ],
-                        ),
-                      );
-                    }
-                  } else {
-                    // Return an empty container if the index is out of range
-                    return Container();
+                    // Build a ProductWidget if the index is valid
+                    return Container(
+                        child: ProductWidget(product: widget.products[index]));
                   }
-                  return Container();
+                  return Container(); // Placeholder for invalid index
                 },
               ),
             ),

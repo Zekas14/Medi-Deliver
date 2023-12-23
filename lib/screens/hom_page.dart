@@ -5,17 +5,20 @@ import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/product.dart';
+import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:medi_deliver/screens/itemPage.dart';
 import 'package:medi_deliver/screens/searchPage.dart';
+import 'package:medi_deliver/model/user.dart' as model;
+import 'package:provider/provider.dart';
 
-// ignore: camel_case_types
 class homPage extends StatelessWidget {
-   const homPage({
+  const homPage({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    model.User? loggedInUser = Provider.of<UserProvider>(context).loggedInUser;
     return SingleChildScrollView(
       child: Container(
           margin: const EdgeInsets.all(25),
@@ -44,9 +47,9 @@ class homPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Hi, Ahmed',
-                          style: TextStyle(
+                        Text(
+                          'Hi, ${loggedInUser!.fullName}',
+                          style: const TextStyle(
                             fontFamily: fontFamilyString,
                             fontSize: 17,
                             color: buttonColor,

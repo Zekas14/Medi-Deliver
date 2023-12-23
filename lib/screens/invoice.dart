@@ -97,7 +97,7 @@ class Invoice extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             Center(
-              child: CustomButton(text: 'Confirm Order'),
+              child: CustomButton(text: 'Confirm Order',),
             ),
           ],
         ),

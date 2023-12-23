@@ -55,7 +55,7 @@ class _CartPageState extends State<CartPage> {
             child: CustomButton(
               text: "Check out",
               onTap: () async {
-                if (widget.cartItem != null) {
+                if (widget.cartItem!.isNotEmpty) {
                   cartItem.addAll(widget.cartItem!);
                   // addToOrderContent();
                   Navigator.push(

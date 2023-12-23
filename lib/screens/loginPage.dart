@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -7,9 +8,12 @@ import 'package:medi_deliver/component/customTextField2.dart';
 import 'package:medi_deliver/component/divider.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:medi_deliver/screens/Regestration.dart';
 import 'package:medi_deliver/screens/Verification.dart';
 import 'package:medi_deliver/screens/screens_holder_nav.dart';
+import 'package:provider/provider.dart';
+import 'package:medi_deliver/model/user.dart' as model;
 
 // ignore: must_be_immutable
 class Login extends StatefulWidget {
@@ -62,7 +66,6 @@ class LoginState extends State<Login> {
       // Once signed in, return the UserCredential
       return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
     } on Exception {
-
       // ignore: use_build_context_synchronously
       context.showCustomSnackBar(
           message: "Log in With Facebook Failed", color: errorColor);
@@ -224,7 +227,7 @@ class LoginState extends State<Login> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  ScreensHolderNav(),
+                            builder: (context) => ScreensHolderNav(),
                           ),
                         );
                       }
@@ -307,12 +310,44 @@ class LoginState extends State<Login> {
       ),
     );
   }
-
-  Future<UserCredential> userSignIn() async {
-    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+Future<UserCredential> userSignIn() async {
+  try {
+    UserCredential credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
       email: widget.email!,
       password: widget.password!,
     );
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Fetch additional user details from Firestore
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userSnapshot.exists) {
+        // Map user data from Firestore
+        Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+
+        model.User signedInUser = model.User(
+          uid: user.uid,
+          fullName: userData['fullName'],
+          email: userData['email'],
+          // Add other user data fields as needed
+        );
+
+        // Set the signed-in user in the provider
+        Provider.of<UserProvider>(context, listen: false).setLoggedInUser(
+          signedInUser,
+        );
+      }
+    }
+
     return credential;
+  } catch (e) {
+    print(e.toString());
+    throw e;
   }
-}
+}}

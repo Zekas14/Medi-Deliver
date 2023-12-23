@@ -17,10 +17,8 @@ class AddToCartBtn extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         Provider.of<Cart>(context, listen: false).addToCart(product);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("added to cart"),
-          duration: Duration(milliseconds: 500),
-        ));
+        context.showCustomSnackBar(
+            message: 'Added to cart', color: Colors.green);
       },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10),

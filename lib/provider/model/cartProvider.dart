@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/cartContianer.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/cartItemModel.dart';
 
 import '../../model/product.dart';

@@ -32,7 +32,6 @@ class _CustomTextFeildState extends State<CustomTextFeild2> {
         if (data!.isEmpty) {
           return 'Field is Required';
         }
-        return '';
       },
       onChanged: widget.onChanged,
       obscureText: widget.obscureText!,

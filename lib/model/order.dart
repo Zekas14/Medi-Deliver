@@ -1,12 +1,11 @@
-import 'dart:math';
 
-import 'package:medi_deliver/component/MedicineItem.dart';
+import 'package:medi_deliver/model/cartItemModel.dart';
 class Order {
   final int orderId;
    final DateTime date;
   final String buyerName;
   final String buyerLocation;
-   List<MedicineItem> medicineItems;
+   List<CartItem> Items;
   final double discount;
   final double tax;
 
@@ -15,15 +14,15 @@ class Order {
     required this.date,
     required this.buyerName,
     required this.buyerLocation,
-    required this.medicineItems,
+    required this.Items,
     required this.discount,
     this.tax = 13,
   });
 
   double calculateTotalAmount() {
     double total = 0.0;
-    for (var item in medicineItems) {
-      total += item.price * item.quantity;
+    for (var item in Items) {
+      total += item.product.price * item.quantity;
     }
     total -= discount;
     

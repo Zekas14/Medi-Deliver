@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/core/constants.dart';
 
 class MedicineItem extends StatelessWidget {
   final String name;
   final int quantity;
-  final double price;
+  final int price;
 
   const MedicineItem({
     required this.name,
@@ -16,16 +16,29 @@ class MedicineItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color.fromARGB(255, 232, 231, 231)),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('$name x $quantity'),
-          Text('\$${(price * quantity).toStringAsFixed(2)}'),
+          Text(
+            '$quantity x $name ',
+            style: const TextStyle(
+              fontFamily: fontFamilyString,
+              fontSize: 15,
+              color: fontSecondaryColor,
+            ),
+          ),
+          Text(
+            '\$${(price * quantity).toStringAsFixed(2)}',
+            style: const TextStyle(
+              fontFamily: fontFamilyString,
+              fontSize: 15,
+            ),
+          ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/screens/cartPage.dart';
 import 'package:medi_deliver/screens/hom_page.dart';
+import 'package:medi_deliver/screens/profilePage.dart';
 
 class ScreensHolderNav extends StatefulWidget {
   const ScreensHolderNav({super.key});
@@ -27,10 +28,10 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
     'asset/images/profile_icon.png',
   ];
   final List<Widget> _screens = [
-    homPage(),
+    const homPage(),
    const Scaffold(),
     CartPage(),
-    const Scaffold(),
+    const ProfilePage(),
 
     //orders here,
     //cart here,

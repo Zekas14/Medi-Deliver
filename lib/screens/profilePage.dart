@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
+import 'package:medi_deliver/model/user.dart' as model;
+import 'package:medi_deliver/provider/userProvider.dart';
+import 'package:medi_deliver/screens/addressPage.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -74,6 +78,8 @@ class ProfilePage extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
+    model.User? loggedInUser = Provider.of<UserProvider>(context).loggedInUser;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -116,19 +122,19 @@ class ProfilePage extends StatelessWidget {
                               width: 10,
                               height: 5,
                             ),
-                            const Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Ahmed Zakarya",
-                                  style: TextStyle(
+                                  loggedInUser!.fullName ?? 'Geust',
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: fontFamilyString,
                                   ),
                                 ),
                                 Text(
-                                  "+20 1060582526",
+                                  loggedInUser.phoneNumber ?? '01068782526',
                                   style: TextStyle(
                                     color: Colors.black12,
                                     fontFamily: fontFamilyString,
@@ -168,7 +174,14 @@ class ProfilePage extends StatelessWidget {
                             buildBox(
                               "asset/images/address.png",
                               "Address",
-                              () {},
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddressPage()),
+                                );
+                              },
                               topPadding: 5,
                             ),
 

@@ -221,7 +221,6 @@ class LoginState extends State<Login> {
                         // ignore: use_build_context_synchronously
                         context.showCustomSnackBar(
                             message: "Login successful", color: Colors.green);
-                        await Future.delayed(Duration(seconds: 1));
                         // Navigate to the HomePage
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
@@ -310,44 +309,49 @@ class LoginState extends State<Login> {
       ),
     );
   }
-Future<UserCredential> userSignIn() async {
-  try {
-    UserCredential credential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-      email: widget.email!,
-      password: widget.password!,
-    );
 
-    User? user = FirebaseAuth.instance.currentUser;
+  Future<UserCredential> userSignIn() async {
+    try {
+      UserCredential credential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: widget.email!,
+        password: widget.password!,
+      );
 
-    if (user != null) {
-      // Fetch additional user details from Firestore
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+      User? user = FirebaseAuth.instance.currentUser;
 
-      if (userSnapshot.exists) {
-        // Map user data from Firestore
-        Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+      if (user != null) {
+        // Fetch additional user details from Firestore
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
 
-        model.User signedInUser = model.User(
-          uid: user.uid,
-          fullName: userData['fullName'],
-          email: userData['email'],
-          // Add other user data fields as needed
-        );
+        if (userSnapshot.exists) {
+          // Map user data from Firestore
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
 
-        // Set the signed-in user in the provider
-        Provider.of<UserProvider>(context, listen: false).setLoggedInUser(
-          signedInUser,
-        );
+          model.User signedInUser = model.User(
+              uid: user.uid,
+              fullName: userData['fullName'],
+              email: userData['email'],
+              phoneNumber: userData['phone'],
+              address: userData['Address'],
+              // Add other user data fields as needed
+              );
+
+          // Set the signed-in user in the provider
+          Provider.of<UserProvider>(context, listen: false).setLoggedInUser(
+            signedInUser,
+          );
+        }
       }
-    }
 
-    return credential;
-  } catch (e) {
-    print(e.toString());
-    throw e;
+      return credential;
+    } catch (e) {
+      print(e);
+      rethrow ;
+    }
   }
-}}
+}

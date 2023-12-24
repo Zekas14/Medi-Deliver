@@ -17,6 +17,8 @@ class SignUp extends StatefulWidget {
   String? fullName;
   String? email;
   String? password;
+  String? phone;
+  String? address;
   String? confiremPassword;
 
   SignUp({super.key});
@@ -110,6 +112,48 @@ class SingUpState extends State<SignUp> {
                   },
                   prefiximagePath: 'asset/images/sms.png',
                   hintText: "Example@mail.com",
+                  obscureText: false,
+                ),
+              ),
+              // Password
+              Row(
+                children: [
+                  label("Mobile Number"),
+                  requiredSign,
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: CustomTextFeild2(
+                  borderColor: Colors.white,
+                  onChanged: (data) {
+                    if (int.tryParse(data) != null || data.length <= 11) {
+                      widget.phone = data;
+                    } else {
+                      context.showCustomSnackBar(
+                          message: 'number unvalid', color: errorColor);
+                    }
+                  },
+                  prefiximagePath: 'asset/images/call.png',
+                  hintText: "01060582526",
+                  obscureText: false,
+                ),
+              ),
+              Row(
+                children: [
+                  label("City/Address"),
+                  requiredSign,
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: CustomTextFeild2(
+                  borderColor: Colors.white,
+                  onChanged: (data) {
+                    widget.address = data;
+                  },
+                  prefiximagePath: 'asset/images/addressicon.png',
+                  hintText: "Assuit, City",
                   obscureText: false,
                 ),
               ),
@@ -295,35 +339,42 @@ class SingUpState extends State<SignUp> {
       ),
     );
   }
-Future<void> userRegistration() async {
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-      email: widget.email!,
-      password: widget.password!,
-    );
 
-    // Access the UserProvider and set the loggedInUser
-    Provider.of<UserProvider>(context, listen: false)
-        .setLoggedInUser(model.User(
-      uid: userCredential.user?.uid,
-      fullName: widget.fullName,
-      email: widget.email,
-    ));
+  Future<void> userRegistration() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: widget.email!,
+        password: widget.password!,
+      );
 
-    // Add user data to Firestore
-    await FirebaseFirestore.instance.collection('users').doc(userCredential.user?.uid).set({
-      'fullName': widget.fullName,
-      'email': widget.email,
-      // Add other user data fields as needed
-    });
+      // Access the UserProvider and set the loggedInUser
+      Provider.of<UserProvider>(context, listen: false)
+          .setLoggedInUser(model.User(
+        uid: userCredential.user?.uid,
+        fullName: widget.fullName,
+        email: widget.email,
+        phoneNumber: widget.phone,
+        address: widget.address,
+      ));
 
-    // ... rest of your code ...
-  } on FirebaseAuthException catch (e) {
-    // Handle FirebaseAuthException
-  } catch (e) {
-    // Handle other exceptions
+      // Add user data to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set({
+        'fullName': widget.fullName,
+        'email': widget.email,
+        'Address': widget.address,
+        'phone': widget.phone,
+        // Add other user data fields as needed
+      });
+
+      // ... rest of your code ...
+    } on FirebaseAuthException catch (e) {
+      // Handle FirebaseAuthException
+    } catch (e) {
+      // Handle other exceptions
+    }
   }
-}
-
 }

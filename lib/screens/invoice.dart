@@ -7,19 +7,22 @@ import 'package:medi_deliver/component/customButton.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/order.dart' as model;
+import 'package:medi_deliver/model/user.dart' as model;
+import 'package:medi_deliver/provider/userProvider.dart';
+import 'package:provider/provider.dart';
 
 class Invoice extends StatelessWidget {
-  final model.Order order = model.Order(
-    orderId: Random().nextInt(1000000), // Generate a random order ID
-    date: DateTime.now(),
-    buyerName: 'John Doe',
-    buyerLocation: '123 Main St, Cityville',
-    Items: cartItem,
-    discount: 5.00,
-    // Set tax as a fixed 10%
-  );
   @override
   Widget build(BuildContext context) {
+    model.User? loggedInUser = Provider.of<UserProvider>(context).loggedInUser;
+    model.Order order = model.Order(
+      orderId: Random().nextInt(1000000), // Generate a random order ID
+      date: DateTime.now(),
+      buyerName: loggedInUser!.fullName,
+      buyerLocation: loggedInUser.address ?? 'Assuit',
+      Items: cartItem,
+      discount: 5.00,
+    );
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
@@ -97,7 +100,9 @@ class Invoice extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             Center(
-              child: CustomButton(text: 'Confirm Order',),
+              child: CustomButton(
+                text: 'Confirm Order',
+              ),
             ),
           ],
         ),

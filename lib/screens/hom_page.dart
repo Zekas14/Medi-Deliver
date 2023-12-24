@@ -61,9 +61,9 @@ class homPage extends StatelessWidget {
                               'asset/images/map.png',
                               width: 20,
                             ),
-                            const Text(
-                              'Assiut, Assiut city',
-                              style: TextStyle(
+                             Text(
+                              loggedInUser.address??'',
+                              style:const TextStyle(
                                 fontFamily: 'DINNextLTW23s',
                                 fontSize: 15,
                                 color: fontSecondaryColor,

@@ -22,6 +22,7 @@ class Verification extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,

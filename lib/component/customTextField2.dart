@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:medi_deliver/core/constants.dart';
 
 // ignore: must_be_immutable
 class CustomTextFeild2 extends StatefulWidget {
@@ -63,6 +64,7 @@ class _CustomTextFeildState extends State<CustomTextFeild2> {
           color: Color.fromARGB(255, 176, 176, 176),
           fontSize: 16,
           fontWeight: FontWeight.normal,
+          fontFamily: fontFamilyString,
         ),
         prefixIconConstraints: const BoxConstraints(
           minWidth: 50,

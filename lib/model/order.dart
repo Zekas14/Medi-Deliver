@@ -3,8 +3,8 @@ import 'package:medi_deliver/model/cartItemModel.dart';
 class Order {
   final int orderId;
    final DateTime date;
-  final String buyerName;
-  final String buyerLocation;
+  final String? buyerName;
+  final String? buyerLocation;
    List<CartItem> Items;
   final double discount;
   final double tax;

@@ -1,16 +1,20 @@
-
 import 'package:medi_deliver/model/cartItemModel.dart';
+
 class Order {
   final int orderId;
-   final DateTime date;
+  final DateTime date;
+  String orderStatus = 'Pending';
   final String? buyerName;
+  final String? buyerId;
   final String? buyerLocation;
-   List<CartItem> Items;
+  List<CartItem> Items;
   final double discount;
   final double tax;
+  double totalAmount = 0;
 
   Order({
     required this.orderId,
+    required this.buyerId,
     required this.date,
     required this.buyerName,
     required this.buyerLocation,
@@ -20,19 +24,14 @@ class Order {
   });
 
   double calculateTotalAmount() {
-    double total = 0.0;
     for (var item in Items) {
-      total += item.product.price * item.quantity;
+      totalAmount += item.product.price * item.quantity;
     }
-    total -= discount;
-    
+    totalAmount -= discount;
+
     // Calculate tax as 10% of the order total
-    total += total * (tax / 100);
-    
-    return total;
+    totalAmount += totalAmount * (tax / 100);
+
+    return totalAmount;
   }
 }
-
-
-
-

@@ -2,23 +2,36 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medi_deliver/component/MedicineItem.dart';
 import 'package:medi_deliver/component/customButton.dart';
+import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
+import 'package:medi_deliver/core/orderServices.dart';
+import 'package:medi_deliver/model/cartItemModel.dart';
 import 'package:medi_deliver/model/order.dart' as model;
 import 'package:medi_deliver/model/user.dart' as model;
+import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:provider/provider.dart';
 
-class Invoice extends StatelessWidget {
+class Invoice extends StatefulWidget {
+  @override
+  State<Invoice> createState() => _InvoiceState();
+}
+
+class _InvoiceState extends State<Invoice> {
   @override
   Widget build(BuildContext context) {
     model.User? loggedInUser = Provider.of<UserProvider>(context).loggedInUser;
+    List<CartItem> cartItem =
+        Provider.of<Cart>(context, listen: false).cartItemsList;
+    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
     model.Order order = model.Order(
+      buyerId: loggedInUser!.uid,
       orderId: Random().nextInt(1000000), // Generate a random order ID
       date: DateTime.now(),
-      buyerName: loggedInUser!.fullName,
+      buyerName: loggedInUser.fullName,
       buyerLocation: loggedInUser.address ?? 'Assuit',
       Items: cartItem,
       discount: 5.00,
@@ -43,7 +56,7 @@ class Invoice extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             myText('Order ID: #${order.orderId}'),
-            myText('Date: ${order.date}'),
+            myText('Date: $formattedDate'),
             myText('Buyer: ${order.buyerName}'),
             myText('Location: ${order.buyerLocation}'),
             const SizedBox(height: 20),
@@ -101,8 +114,18 @@ class Invoice extends StatelessWidget {
             const SizedBox(height: 40),
             Center(
               child: CustomButton(
-                text: 'Confirm Order',
-              ),
+                  text: 'Confirm Order',
+                  onTap: () async {
+                    OrderService.addOrderToFirestore(order);
+
+                    Provider.of<Cart>(context, listen: false).clearCart();
+                    cartItem.clear();
+                    context.showCustomSnackBar(
+                      message: 'Order Confirmed',
+                      color: Colors.green,
+                    );
+                    Navigator.pop(context);
+                  }),
             ),
           ],
         ),
@@ -119,30 +142,5 @@ class Invoice extends StatelessWidget {
         fontSize: 16,
       ),
     );
-  }
-
-  Future<void> addOrderToFirestore(model.Order order) async {
-    try {
-      await FirebaseFirestore.instance.collection('orders').add({
-        'orderId': order.orderId,
-        'date': order.date,
-        'buyerName': order.buyerName,
-        'buyerLocation': order.buyerLocation,
-        'discount': order.discount,
-        'tax': order.tax,
-        'totalAmount': order.calculateTotalAmount(),
-        'items': order.Items.map((item) {
-          return {
-            'name': item.product.name,
-            'quantity': item.quantity,
-            'price': item.product.price,
-          };
-        }).toList(),
-      });
-
-      print('Order added to Firestore');
-    } catch (error) {
-      print('Error adding order to Firestore: $error');
-    }
   }
 }

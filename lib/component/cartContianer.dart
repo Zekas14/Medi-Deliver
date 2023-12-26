@@ -105,12 +105,6 @@ class _ItemContianerState extends State<CartContainer> {
                         } else {
                           Provider.of<Cart>(context, listen: false)
                               .removeFromCart(widget.cartItem);
-                          cartItem.remove(
-                            (
-                              cartItem.where((element) =>
-                                  element.product == widget.cartItem),
-                            ),
-                          );
                         }
                       });
                     },

@@ -37,4 +37,10 @@ class Cart extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clearCart() {
+    cartItemsList.clear();
+    cartContianers.clear();
+    notifyListeners();
+  }
 }

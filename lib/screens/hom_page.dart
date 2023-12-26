@@ -48,7 +48,7 @@ class homPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hi, ${loggedInUser!.fullName}',
+                          'Hi, ${loggedInUser!.fullName ?? 'Guest'}',
                           style: const TextStyle(
                             fontFamily: fontFamilyString,
                             fontSize: 17,
@@ -61,9 +61,9 @@ class homPage extends StatelessWidget {
                               'asset/images/map.png',
                               width: 20,
                             ),
-                             Text(
-                              loggedInUser.address??'',
-                              style:const TextStyle(
+                            Text(
+                              loggedInUser.address ?? '',
+                              style: const TextStyle(
                                 fontFamily: 'DINNextLTW23s',
                                 fontSize: 15,
                                 color: fontSecondaryColor,

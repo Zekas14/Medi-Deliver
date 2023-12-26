@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
+import 'package:medi_deliver/provider/orderProvider.dart';
 import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,10 +36,12 @@ class MediDeliverApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
-         ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-      )
-      
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -11,7 +11,7 @@ class AddressPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title:Text(
+        title:const Text(
             '              Address',
             style: TextStyle(
               fontSize: 24,
@@ -26,10 +26,14 @@ class AddressPage extends StatelessWidget {
             Column(
               children: [
                 const SizedBox(height: 10,),
-                Image.asset(
+              GestureDetector(
+                onTap: (){
+
+                },
+                child:  Image.asset(
                   'asset/images/profile.png',
                   width: 90,
-                ),
+                ),),
                 const SizedBox(height: 10,),
                 fieldContianer('Area'),
                 fieldContianer('Street Name'),

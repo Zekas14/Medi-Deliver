@@ -23,7 +23,7 @@ class AddToCartBtn extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10),
         minimumSize: const Size(164, 45),
-        primary: buttonColor,
+        backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),

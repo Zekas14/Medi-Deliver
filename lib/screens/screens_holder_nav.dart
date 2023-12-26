@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/screens/cartPage.dart';
 import 'package:medi_deliver/screens/hom_page.dart';
+import 'package:medi_deliver/screens/orderPage.dart';
 import 'package:medi_deliver/screens/profilePage.dart';
 
 class ScreensHolderNav extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
   ];
   final List<Widget> _screens = [
     const homPage(),
-   const Scaffold(),
+    OrderPage(),
     CartPage(),
     const ProfilePage(),
 

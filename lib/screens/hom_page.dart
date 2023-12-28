@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:medi_deliver/component/ProductWidget.dart';
@@ -35,10 +36,25 @@ class homPage extends StatelessWidget {
                         width: 2,
                       )),
                     ),
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(4.0),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('asset/images/profile.png'),
+                      child: CachedNetworkImage(
+                        imageUrl: loggedInUser!.profileImage,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 20,
+                          backgroundImage: imageProvider,
+                        ),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(
+                          color: buttonColor,
+                        ),
+                        errorWidget: (context, url, error) {
+                          return CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                AssetImage('asset/images/profile.png'),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -48,12 +64,15 @@ class homPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hi, ${loggedInUser!.fullName ?? 'Guest'}',
+                          'Hi, ${loggedInUser.fullName ?? 'Guest'}',
                           style: const TextStyle(
                             fontFamily: fontFamilyString,
-                            fontSize: 17,
+                            fontSize: 18,
                             color: buttonColor,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 2,
                         ),
                         Row(
                           children: [
@@ -224,7 +243,9 @@ class homPage extends StatelessWidget {
                     stream: fetchProductsStream(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
+                        return const CircularProgressIndicator(
+                          color: buttonColor,
+                        );
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {

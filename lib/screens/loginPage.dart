@@ -87,8 +87,12 @@ class LoginState extends State<Login> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.asset(
+                'asset/images/logo.png',
+                width: 80,
+              ),
               const Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 0),
+                padding: EdgeInsets.only(top: 15, bottom: 0),
                 child: Text(
                   "Welcome to Medi-Deliver 👋",
                   style: TextStyle(
@@ -119,6 +123,11 @@ class LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  validator: (data) {
+                    if (data!.isEmpty) {
+                      return 'Field is Required';
+                    }
+                  },
                   onChanged: (data) {
                     widget.email = data;
                   },
@@ -141,6 +150,11 @@ class LoginState extends State<Login> {
                   onChanged: (data) {
                     widget.password = data;
                   },
+                  validator: (data) {
+                    if (data!.isEmpty) {
+                      return 'Field is Required';
+                    }
+                  },
                   prefiximagePath: 'asset/images/lock.png',
                   hintText: "Enter Password",
                   obscureText: true,
@@ -153,24 +167,6 @@ class LoginState extends State<Login> {
                 padding: const EdgeInsets.symmetric(vertical: 0),
                 child: Row(
                   children: [
-                    Checkbox(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        activeColor: fontSecondaryColor,
-                        value: checkboxState,
-                        onChanged: (value) {
-                          setState(() {
-                            checkboxState = !checkboxState;
-                          });
-                        }),
-                    const Text(
-                      "Remember Me ",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: fontFamilyString,
-                        color: fontSecondaryColor,
-                      ),
-                    ),
                     const Spacer(
                       flex: 1,
                     ),
@@ -243,6 +239,10 @@ class LoginState extends State<Login> {
                           message: 'Wrong password provided for that user.',
                           color: errorColor,
                         );
+                      } else {
+                        context.showCustomSnackBar(
+                            message: "Email Or Passwor is Not True",
+                            color: errorColor);
                       }
                     }
                   }
@@ -321,7 +321,6 @@ class LoginState extends State<Login> {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        // Fetch additional user details from Firestore
         DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
@@ -333,13 +332,14 @@ class LoginState extends State<Login> {
               userSnapshot.data() as Map<String, dynamic>;
 
           model.User signedInUser = model.User(
-              uid: user.uid,
-              fullName: userData['fullName'],
-              email: userData['email'],
-              phoneNumber: userData['phone'],
-              address: userData['Address'],
-              // Add other user data fields as needed
-              );
+            uid: user.uid,
+            fullName: userData['fullName'],
+            email: userData['email'],
+            phoneNumber: userData['phone'],
+            address: userData['Address'],
+            profileImage: userData['image'],
+            // Add other user data fields as needed
+          );
 
           // Set the signed-in user in the provider
           Provider.of<UserProvider>(context, listen: false).setLoggedInUser(
@@ -351,7 +351,7 @@ class LoginState extends State<Login> {
       return credential;
     } catch (e) {
       print(e);
-      rethrow ;
+      rethrow;
     }
   }
 }

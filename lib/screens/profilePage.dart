@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
@@ -115,11 +116,26 @@ class ProfilePage extends StatelessWidget {
                                   width: 2,
                                 )),
                               ),
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.all(4.0),
-                                child: CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('asset/images/profile.png'),
+                                child: CachedNetworkImage(
+                                  imageUrl: loggedInUser!.profileImage,
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage: imageProvider,
+                                  ),
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(
+                                    color: buttonColor,
+                                  ),
+                                  errorWidget: (context, url, error) {
+                                    return CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                          'asset/images/profile.png'),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -131,19 +147,20 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  loggedInUser!.fullName ?? 'Geust',
+                                  loggedInUser.fullName ?? 'Geust',
                                   style: const TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: fontFamilyString,
+                                    color: buttonColor,
                                   ),
                                 ),
                                 Text(
                                   loggedInUser.phoneNumber ?? '01068782526',
-                                  style: TextStyle(
-                                    color: Colors.black12,
-                                    fontFamily: fontFamilyString,
-                                  ),
+                                  style: const TextStyle(
+                                      color: Colors.black12,
+                                      fontFamily: fontFamilyString,
+                                      fontSize: 16),
                                 ),
                               ],
                             ),
@@ -183,7 +200,7 @@ class ProfilePage extends StatelessWidget {
                             SizedBox(height: 10),
                             buildBox(
                               "asset/images/address.png",
-                              "Address",
+                              "Profile",
                               () {
                                 Navigator.push(
                                   context,
@@ -202,7 +219,13 @@ class ProfilePage extends StatelessWidget {
                             buildBox(
                               "asset/images/wallet.png",
                               "Wallet",
-                              () {},
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Scaffold()),
+                                );
+                              },
                               topPadding: 5,
                             ),
                             // ElevatedButton(onPressed:(){

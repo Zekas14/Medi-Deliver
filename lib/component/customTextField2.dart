@@ -10,6 +10,9 @@ class CustomTextFeild2 extends StatefulWidget {
   bool? obscureText;
   final Color? borderColor; // New property for border color
   final Function(String)? onChanged;
+  final TextInputType? textInputType;
+  final int maxLenght;
+  final String? Function(String?)? validator; // Validator function
 
   CustomTextFeild2({
     Key? key,
@@ -17,8 +20,11 @@ class CustomTextFeild2 extends StatefulWidget {
     this.hintText,
     this.suffiximagePath,
     this.obscureText,
+    this.textInputType = TextInputType.text,
     this.borderColor = Colors.white, // Required border color
     this.onChanged,
+    this.maxLenght = 25,
+    this.validator, // Validator parameter
   }) : super(key: key);
 
   @override
@@ -29,20 +35,18 @@ class _CustomTextFeildState extends State<CustomTextFeild2> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (data) {
-        if (data!.isEmpty) {
-          return 'Field is Required';
-        }
-      },
+      maxLength: widget.maxLenght,
+      validator: widget.validator, // Use the validator parameter
+      keyboardType: widget.textInputType,
       onChanged: widget.onChanged,
       obscureText: widget.obscureText!,
       decoration: InputDecoration(
+        counterText: '',
         filled: true,
         fillColor: const Color.fromARGB(255, 239, 240, 241),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:
-              BorderSide(color: widget.borderColor!), // Set border color
+          borderSide: BorderSide(color: widget.borderColor!),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),

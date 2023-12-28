@@ -20,7 +20,9 @@ class _ItemsPageState extends State<ItemsPage> {
       appBar: AppBar(
         title: Text(
           widget.categoryName,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black,
+            fontFamily: fontFamilyString,
+          ),
         ),
         backgroundColor: backgroundColor,
         centerTitle: true,
@@ -33,8 +35,8 @@ class _ItemsPageState extends State<ItemsPage> {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 4.0,
-                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 100.0,
+                  crossAxisSpacing: 40.0,
                 ),
                 itemCount: widget.products.length,
                 itemBuilder: (context, index) {

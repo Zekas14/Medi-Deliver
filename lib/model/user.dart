@@ -4,7 +4,7 @@ class User {
   String? fullName;
   String? email;
   String? address;
-  String? profileImage;
+  String profileImage;
   String? phoneNumber;
   User({
     this.uid,
@@ -12,6 +12,6 @@ class User {
     this.fullName,
     this.email,
     this.phoneNumber,
-    this.profileImage,
+    required this.profileImage,
   });
 }

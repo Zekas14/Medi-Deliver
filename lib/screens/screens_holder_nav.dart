@@ -87,7 +87,7 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
               width: 24,
               height: 24,
             ),
-            label: "Profile",
+            label: "Account",
           ),
         ],
         selectedLabelStyle: const TextStyle(

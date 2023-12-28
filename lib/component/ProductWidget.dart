@@ -1,15 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
+import 'package:medi_deliver/provider/favoritesProvider.dart';
+import 'package:medi_deliver/provider/userProvider.dart';
+import 'package:provider/provider.dart';
 import 'add_to_cart_btn.dart';
 
 // ignore: must_be_immutable
 class ProductWidget extends StatefulWidget {
   Product product;
+  bool isFav;
   ProductWidget({
     Key? key,
     required this.product,
+    this.isFav = false,
   }) : super(key: key);
 
   @override
@@ -17,11 +24,12 @@ class ProductWidget extends StatefulWidget {
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
-  bool _isFavorited = false;
   IconData bata = Icons.favorite;
+  late FavoritesProvider provider;
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -82,14 +90,20 @@ class _ProductWidgetState extends State<ProductWidget> {
             right: 0,
             child: InkWell(
               child: Icon(
-                _isFavorited ? Icons.favorite : Icons.favorite_border,
-                color: _isFavorited ? Colors.red : Colors.grey,
+                widget.isFav ? Icons.favorite : Icons.favorite_border,
+                color: widget.isFav ? Colors.red : Colors.grey,
                 size: 25.0,
               ),
               onTap: () {
+                if (!widget.isFav) {
+                  addToFavourite();
+                } else {
+                  Provider.of<FavoritesProvider>(context, listen: false)
+                      .deleteFavourite(widget.product.id!);
+                }
+
                 setState(() {
-                  _isFavorited = !_isFavorited;
-                  print("mango");
+                  widget.isFav = !widget.isFav;
                 });
               },
             ),
@@ -97,5 +111,24 @@ class _ProductWidgetState extends State<ProductWidget> {
         ],
       ),
     );
+  }
+
+  void addToFavourite() {
+    CollectionReference favCollectionRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('favourite');
+    DocumentReference newEmptyDoc = favCollectionRef.doc();
+    newEmptyDoc.set({
+      'id': newEmptyDoc.id,
+      'image': widget.product.imagePath,
+      'description': widget.product.description,
+      'name': widget.product.name,
+      'category': widget.product.category,
+      'price': widget.product.price,
+    }).timeout(const Duration(milliseconds: 300), onTimeout: () {
+      provider.refreshProductsList();
+      // provider.getProductByCode();
+    });
   }
 }

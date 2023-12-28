@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/user.dart' as model;
 import 'package:medi_deliver/provider/userProvider.dart';
+import 'package:medi_deliver/screens/FavoritesScreen.dart';
 import 'package:medi_deliver/screens/addressPage.dart';
+import 'package:medi_deliver/screens/itemPage.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/favoritesProvider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -79,7 +83,8 @@ class ProfilePage extends StatelessWidget {
     BuildContext context,
   ) {
     model.User? loggedInUser = Provider.of<UserProvider>(context).loggedInUser;
-
+    FavoritesProvider provider = Provider.of(context);
+    ;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -161,7 +166,12 @@ class ProfilePage extends StatelessWidget {
                             buildBox(
                               "asset/images/favourite.png",
                               "Favorites",
-                              () {},
+                              () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FavItems()));
+                              },
                               imageWidth: 60,
                               imageHeight: 40,
                               topPadding: 5,

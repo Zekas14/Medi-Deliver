@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medi_deliver/component/ProductWidget.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
+import 'package:medi_deliver/provider/favoritesProvider.dart';
+import 'package:provider/provider.dart';
 
-class ItemsPage extends StatefulWidget {
-  final String categoryName;
-  final List<Product> products;
-
-  ItemsPage({required this.products, required this.categoryName});
+class FavItems extends StatefulWidget {
+  FavItems() : super();
 
   @override
-  _ItemsPageState createState() => _ItemsPageState();
+  _FavItemsState createState() => _FavItemsState();
 }
 
-class _ItemsPageState extends State<ItemsPage> {
+class _FavItemsState extends State<FavItems> {
+  late FavoritesProvider provider;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      provider.refreshProductsList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.categoryName,
+          "Favorites",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: backgroundColor,
@@ -33,20 +43,13 @@ class _ItemsPageState extends State<ItemsPage> {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 4.0,
-                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 2.0,
+                  crossAxisSpacing: 2.0,
                   childAspectRatio: 0.6,
                 ),
-                itemCount: widget.products.length,
-                itemBuilder: (context, index) {
-                  // Check if the current index is within the valid range
-                  if (index < widget.products.length) {
-                    // Build a ProductWidget if the index is valid
-                    return Container(
-                        child: ProductWidget(product: widget.products[index]));
-                  }
-                  return Container(); // Placeholder for invalid index
-                },
+                itemCount: provider.products.length,
+                itemBuilder: (context, index) => ProductWidget(
+                    product: provider.products[index], isFav: true),
               ),
             ),
           ],

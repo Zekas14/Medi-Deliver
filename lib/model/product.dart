@@ -1,18 +1,47 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Product {
-  String name;
-  String imagePath;
-  String description;
-  String category;
-  int price;
+  late String name;
+  late String imagePath;
+  late String description;
+  late String category;
+  late int price;
+  static Product? product;
+  String? id;
+
   Product({
     required this.name,
     required this.imagePath,
     required this.description,
     required this.category,
     required this.price,
+    this.id,
   });
+
+  // Factory method to create a Product instance from a Map
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      name: json["name"],
+      imagePath: json["image"],
+      description: json["description"],
+      category: json["category"],
+      price: json["price"],
+      id: json["id"],
+    );
+  }
+
+  // Method to convert a Product instance to a Map
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'image': imagePath,
+      'description': description,
+      'category': category,
+      'price': price,
+      'id': id,
+    };
+  }
+
   // Override == operator for equality comparison
   @override
   bool operator ==(Object other) {
@@ -34,21 +63,5 @@ class Product {
         description.hashCode ^
         category.hashCode ^
         price.hashCode;
-  }
-}
-
-Future<void> addProductsToFirestore(List<Product> products) async {
-  final CollectionReference productsCollection =
-      FirebaseFirestore.instance.collection('Product');
-
-  for (Product product in products) {
-    await productsCollection.add({
-      'image': product.imagePath,
-      'description': product.description,
-      'name': product.name,
-      'category': product.category,
-      'price': product.price,
-      // Add more fields as needed
-    });
   }
 }

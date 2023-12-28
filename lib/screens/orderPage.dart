@@ -34,13 +34,14 @@ class _OrderPageState extends State<OrderPage> {
         ),
       ),
       backgroundColor: backgroundColor,
-      body: Provider.of<OrderProvider>(context).orders.isEmpty
+      body: Provider.of<OrderProvider>(context).orders!.isEmpty
           ? const Center(child: Text('No orders available.'))
           : ListView.builder(
-              itemCount: Provider.of<OrderProvider>(context).orders.length,
+              physics: BouncingScrollPhysics(),
+              itemCount: Provider.of<OrderProvider>(context).orders!.length,
               itemBuilder: (context, index) {
                 return OrderCard(
-                  order: Provider.of<OrderProvider>(context).orders[index],
+                  order: Provider.of<OrderProvider>(context).orders![index],
                 );
               },
             ),

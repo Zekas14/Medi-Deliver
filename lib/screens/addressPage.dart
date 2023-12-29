@@ -41,6 +41,7 @@ class _AddressPageState extends State<AddressPage> {
     GlobalKey<FormState> key = GlobalKey();
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
         title: const Text(

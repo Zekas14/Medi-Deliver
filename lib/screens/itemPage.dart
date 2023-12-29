@@ -20,7 +20,10 @@ class _ItemsPageState extends State<ItemsPage> {
       appBar: AppBar(
         title: Text(
           widget.categoryName,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: fontFamilyString,
+          ),
         ),
         backgroundColor: backgroundColor,
         centerTitle: true,

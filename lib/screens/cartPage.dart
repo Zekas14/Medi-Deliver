@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class CartPage extends StatefulWidget {
-
   CartPage({super.key});
   @override
   State<CartPage> createState() => _CartPageState();
@@ -22,6 +21,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Column(
         children: [
           Expanded(

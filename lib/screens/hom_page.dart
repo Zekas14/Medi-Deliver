@@ -160,16 +160,25 @@ class homPage extends StatelessWidget {
               ),
               // image Slider
               ImageSlideshow(
-                  indicatorColor: buttonColor,
+                  indicatorColor: Colors.blueGrey,
                   indicatorBackgroundColor:
                       const Color.fromARGB(255, 213, 213, 213),
                   autoPlayInterval: 3000,
                   isLoop: true,
                   children: [
-                    Image.asset('asset/images/categories/category3.png'),
-                    Image.asset('asset/images/categories/category4.jpg'),
-                    Image.asset('asset/images/categories/category1.jpg'),
-                    Image.asset('asset/images/categories/category2.jpg'),
+                    Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Image.asset(
+                        'asset/images/slide.png',
+                        width: 1,
+                      ),
+                    ),
+                    Image.asset('asset/images/slide2.png'),
+                    Image.asset('asset/images/slide3.png'),
+                    Image.asset('asset/images/slide4.png'),
                   ]),
               const SizedBox(
                 height: 10,
@@ -297,12 +306,17 @@ class CategoryCard extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: onTap,
-              child: Card(
-                  color: Colors.grey[200],
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
-                  )),
+              child: Container(
+                padding: EdgeInsets.all(0),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2, color: Colors.white),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           Text(

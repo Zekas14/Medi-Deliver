@@ -6,7 +6,6 @@ import 'package:medi_deliver/model/user.dart' as model;
 import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:medi_deliver/screens/FavoritesScreen.dart';
 import 'package:medi_deliver/screens/addressPage.dart';
-import 'package:medi_deliver/screens/itemPage.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +45,7 @@ class ProfilePage extends StatelessWidget {
           children: [
             Image.asset(
               imagePath,
+              
               width: imageWidth, // Use the imageWidth parameter
               height: imageHeight,
             ),

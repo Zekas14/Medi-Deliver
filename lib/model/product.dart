@@ -1,4 +1,3 @@
-
 class Product {
   late String name;
   late String imagePath;
@@ -16,7 +15,6 @@ class Product {
     required this.price,
     this.id,
   });
-<<<<<<< HEAD
 
   // Factory method to create a Product instance from a Map
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -64,6 +62,4 @@ class Product {
         category.hashCode ^
         price.hashCode;
   }
-=======
->>>>>>> e8c57787743054bebfd58882b9012ed4d8d77225
 }

@@ -3,10 +3,8 @@ import 'package:medi_deliver/provider/favoritesProvider.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:medi_deliver/provider/orderProvider.dart';
 import 'package:medi_deliver/provider/userProvider.dart';
-import 'package:medi_deliver/screens/FavoritesScreen.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:medi_deliver/screens/screens_holder_nav.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 

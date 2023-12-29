@@ -301,58 +301,56 @@ class SingUpState extends State<SignUp> {
               ),
               CustomButton(
                 text: "Sign Up",
-                color: checkboxState
+                color: checkboxState && key.currentState!.validate()
                     ? buttonColor
                     : Color.fromARGB(255, 176, 176, 176),
                 onTap: () async {
-                  if (key.currentState!.validate()) {
-                    if (checkboxState == true) {
-                      try {
-                        await userRegistration();
+                  if (key.currentState!.validate() && checkboxState) {
+                    try {
+                      await userRegistration();
+                      // ignore: use_build_context_synchronously
+                      context.showCustomDialog(const [
+                        CircularProgressIndicator(
+                          color: Color(0xFF34D49E),
+                        ),
+                        SizedBox(height: 16),
+                        Text("Signing up.."),
+                      ]);
+                      // Simulate a delay (you can replace this with the actual login process)
+                      await Future.delayed(const Duration(seconds: 1));
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ScreensHolderNav(),
+                        ),
+                      );
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
                         // ignore: use_build_context_synchronously
-                        context.showCustomDialog(const [
-                          CircularProgressIndicator(
-                            color: Color(0xFF34D49E),
-                          ),
-                          SizedBox(height: 16),
-                          Text("Signing up.."),
-                        ]);
-                        // Simulate a delay (you can replace this with the actual login process)
-                        await Future.delayed(const Duration(seconds: 1));
-                        // ignore: use_build_context_synchronously
-                        Navigator.pop(context);
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ScreensHolderNav(),
-                          ),
+                        context.showCustomSnackBar(
+                          message: 'Weak Password',
+                          color: errorColor,
                         );
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'weak-password') {
-                          // ignore: use_build_context_synchronously
-                          context.showCustomSnackBar(
-                            message: 'Weak Password',
-                            color: errorColor,
-                          );
-                        } else if (e.code == 'email-already-in-use') {
-                          // ignore: use_build_context_synchronously
-                          context.showCustomSnackBar(
-                            message: 'The Email already used ',
-                            color: errorColor,
-                          );
-                        }
-                      } catch (e) {
+                      } else if (e.code == 'email-already-in-use') {
                         // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(e.toString()),
-                        ));
+                        context.showCustomSnackBar(
+                          message: 'The Email already used ',
+                          color: errorColor,
+                        );
                       }
-                    } else {
-                      setState(() {
-                        termsText = 'temrs unccepted';
-                      });
+                    } catch (e) {
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(e.toString()),
+                      ));
                     }
+                  } else {
+                    setState(() {
+                      termsText = 'You Must Accept Terms And Conditions';
+                    });
                   }
                 },
               ),

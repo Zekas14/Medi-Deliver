@@ -37,9 +37,13 @@ class _InvoiceState extends State<Invoice> {
       discount: 5.00,
     );
     return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.only(
-          top: 50,
+          top: 10,
           left: 20,
           right: 18,
         ),
@@ -49,7 +53,7 @@ class _InvoiceState extends State<Invoice> {
             const Text(
               'Order Details',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: fontFamilyString,
               ),
@@ -63,10 +67,13 @@ class _InvoiceState extends State<Invoice> {
             const Text(
               'Medicine Details',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 fontFamily: fontFamilyString,
               ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Expanded(
               child: ListView.builder(

@@ -42,12 +42,13 @@ class _ScreensHolderNavState extends State<ScreensHolderNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: backgroundColor,
         selectedItemColor: buttonColor, // Set the desired color
         unselectedItemColor: Colors.grey,
         currentIndex: _currentIndex,

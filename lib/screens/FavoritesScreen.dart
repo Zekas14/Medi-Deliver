@@ -27,10 +27,11 @@ class _FavItemsState extends State<FavItems> {
   Widget build(BuildContext context) {
     provider = Provider.of(context);
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(
           "Favorites",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontFamily: fontFamilyString),
         ),
         backgroundColor: backgroundColor,
         centerTitle: true,

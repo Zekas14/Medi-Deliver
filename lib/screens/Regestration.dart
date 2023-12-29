@@ -33,6 +33,7 @@ class SingUpState extends State<SignUp> {
   String? termsText;
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
     termsText = '';
   }
@@ -91,6 +92,7 @@ class SingUpState extends State<SignUp> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
                   borderColor: Colors.white,
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -118,6 +120,7 @@ class SingUpState extends State<SignUp> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -145,6 +148,7 @@ class SingUpState extends State<SignUp> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -174,6 +178,7 @@ class SingUpState extends State<SignUp> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -196,6 +201,7 @@ class SingUpState extends State<SignUp> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -228,6 +234,7 @@ class SingUpState extends State<SignUp> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -305,52 +312,54 @@ class SingUpState extends State<SignUp> {
                     ? buttonColor
                     : Color.fromARGB(255, 176, 176, 176),
                 onTap: () async {
-                  if (key.currentState!.validate() && checkboxState) {
-                    try {
-                      await userRegistration();
-                      // ignore: use_build_context_synchronously
-                      context.showCustomDialog(const [
-                        CircularProgressIndicator(
-                          color: Color(0xFF34D49E),
-                        ),
-                        SizedBox(height: 16),
-                        Text("Signing up.."),
-                      ]);
-                      // Simulate a delay (you can replace this with the actual login process)
-                      await Future.delayed(const Duration(seconds: 1));
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ScreensHolderNav(),
-                        ),
-                      );
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'weak-password') {
+                  if (key.currentState!.validate()) {
+                    if (checkboxState) {
+                      try {
+                        await userRegistration();
                         // ignore: use_build_context_synchronously
-                        context.showCustomSnackBar(
-                          message: 'Weak Password',
-                          color: errorColor,
-                        );
-                      } else if (e.code == 'email-already-in-use') {
+                        context.showCustomDialog(const [
+                          CircularProgressIndicator(
+                            color: Color(0xFF34D49E),
+                          ),
+                          SizedBox(height: 16),
+                          Text("Signing up.."),
+                        ]);
+                        // Simulate a delay (you can replace this with the actual login process)
+                        await Future.delayed(const Duration(seconds: 1));
                         // ignore: use_build_context_synchronously
-                        context.showCustomSnackBar(
-                          message: 'The Email already used ',
-                          color: errorColor,
+                        Navigator.pop(context);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScreensHolderNav(),
+                          ),
                         );
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'weak-password') {
+                          // ignore: use_build_context_synchronously
+                          context.showCustomSnackBar(
+                            message: 'Weak Password',
+                            color: errorColor,
+                          );
+                        } else if (e.code == 'email-already-in-use') {
+                          // ignore: use_build_context_synchronously
+                          context.showCustomSnackBar(
+                            message: 'The Email already used ',
+                            color: errorColor,
+                          );
+                        }
+                      } catch (e) {
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(e.toString()),
+                        ));
                       }
-                    } catch (e) {
-                      // ignore: use_build_context_synchronously
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(e.toString()),
-                      ));
+                    } else {
+                      setState(() {
+                        termsText = 'You Must Accept Terms And Conditions';
+                      });
                     }
-                  } else {
-                    setState(() {
-                      termsText = 'You Must Accept Terms And Conditions';
-                    });
                   }
                 },
               ),
@@ -426,14 +435,10 @@ class SingUpState extends State<SignUp> {
         'phone': widget.phone,
         'image':
             'https://firebasestorage.googleapis.com/v0/b/medi-deliver.appspot.com/profile_images/1000132332.jpg?alt=media&token=717ff51f-1d5a-43e5-acb4-3e613dd77a12',
-        // Add other user data fields as needed
       });
 
-      // ... rest of your code ...
-    } on FirebaseAuthException catch (e) {
-      // Handle FirebaseAuthException
+    } on FirebaseAuthException {
     } catch (e) {
-      // Handle other exceptions
     }
   }
 

@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/model/product.dart';
-import 'package:medi_deliver/provider/userProvider.dart';
-import 'package:provider/provider.dart';
 
 class FavoritesProvider extends ChangeNotifier {
   List<Product> products = [];

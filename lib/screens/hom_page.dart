@@ -134,16 +134,6 @@ class homPage extends StatelessWidget {
                           color: Color.fromARGB(255, 234, 234, 234),
                         ),
                       ),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => QRScannerPage(),
-                            //   ),
-                            // );
-                          },
-                          icon: Image.asset('asset/images/barcode.png')),
                       prefixIcon: IconButton(
                           onPressed: () {
                             Navigator.push(
@@ -202,34 +192,49 @@ class homPage extends StatelessWidget {
               ),
               Container(
                 height: 130,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categoriesList.length,
-                  itemBuilder: (context, index) {
-                    return CategoryCard(
-                      name: categoriesList[index]["name"]!,
-                      imagePath: categoriesList[index]["imagePath"]!,
-                      onTap: () {
-                        categoryList = productList
-                            .where((product) =>
-                                product.category.toLowerCase() ==
-                                categoriesList[index]["name"]!.toLowerCase())
-                            .toList();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ItemsPage(
-                              products: categoryList,
-                              categoryName: categoriesList[index]["name"]!,
-                            ),
-                          ),
+                child: StreamBuilder<List<Map<String, String>>>(
+                    stream: fetchCategoriesStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator(
+                          color: buttonColor,
                         );
-                      },
-                    );
-                  },
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        categoriesList = snapshot.data!;
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: categoriesList.length,
+                          itemBuilder: (context, index) {
+                            return CategoryCard(
+                              name: categoriesList[index]["name"]!,
+                              imagePath: categoriesList[index]["image"]!,
+                              onTap: () {
+                                categoryList = productList
+                                    .where((product) =>
+                                        product.category.toLowerCase() ==
+                                        categoriesList[index]["name"]!
+                                            .toLowerCase())
+                                    .toList();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ItemsPage(
+                                      products: categoryList,
+                                      categoryName: categoriesList[index]
+                                          ["name"]!,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
 
-                  // return CategoryCard();
-                ),
+                          // return CategoryCard();
+                        );
+                      }
+                    }),
               ),
               //  -------------------------Start of Items List
               Container(
@@ -263,7 +268,6 @@ class homPage extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: productList.length,
                           itemBuilder: (context, index) {
-                            categoryList.addAll(productList);
                             return Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: ProductWidget(

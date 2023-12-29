@@ -52,6 +52,10 @@ class _CustomTextFeildState extends State<CustomTextFeild2> {
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: widget.borderColor!),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: buttonColor),
+        ),
         hintText: widget.hintText,
         suffixIcon: widget.suffiximagePath != null
             ? GestureDetector(

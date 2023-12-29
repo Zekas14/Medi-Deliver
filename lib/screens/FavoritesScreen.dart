@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medi_deliver/component/ProductWidget.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/model/product.dart';
 import 'package:medi_deliver/provider/favoritesProvider.dart';
 import 'package:provider/provider.dart';
 

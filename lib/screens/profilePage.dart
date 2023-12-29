@@ -9,7 +9,6 @@ import 'package:medi_deliver/screens/addressPage.dart';
 import 'package:medi_deliver/screens/loginPage.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/favoritesProvider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -84,8 +83,7 @@ class ProfilePage extends StatelessWidget {
     BuildContext context,
   ) {
     model.User? loggedInUser = Provider.of<UserProvider>(context).loggedInUser;
-    FavoritesProvider provider = Provider.of(context);
-    ;
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

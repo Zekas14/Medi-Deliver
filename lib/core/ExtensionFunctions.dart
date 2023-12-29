@@ -38,6 +38,7 @@ extension SnackBarExtension on BuildContext {
     );
   }
 }
+
 Stream<List<Product>> fetchProductsStream() {
   return FirebaseFirestore.instance.collection('Product').snapshots().map(
     (querySnapshot) {
@@ -57,6 +58,25 @@ Stream<List<Product>> fetchProductsStream() {
         products.add(product);
       }
       return products;
+    },
+  );
+}
+
+Stream<List<Map<String, String>>> fetchCategoriesStream() {
+  return FirebaseFirestore.instance.collection('category').snapshots().map(
+    (querySnapshot) {
+      List<Map<String, String>> categories = [];
+      for (QueryDocumentSnapshot productDoc in querySnapshot.docs) {
+        Map<String, dynamic> productData =
+            productDoc.data() as Map<String, dynamic>;
+        Map<String, String> product = {
+          'name': productData['name'] ?? '',
+          'image': productData['image'] ?? '',
+        };
+
+        categories.add(product);
+      }
+      return categories;
     },
   );
 }

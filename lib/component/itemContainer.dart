@@ -1,9 +1,7 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:provider/provider.dart';
 

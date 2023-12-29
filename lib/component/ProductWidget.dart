@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
 import 'package:medi_deliver/model/product.dart';
 import 'package:medi_deliver/provider/favoritesProvider.dart';
-import 'package:medi_deliver/provider/userProvider.dart';
 import 'package:provider/provider.dart';
 import 'add_to_cart_btn.dart';
 

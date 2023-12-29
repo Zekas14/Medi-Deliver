@@ -123,6 +123,7 @@ class LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: CustomTextFeild2(
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -150,6 +151,7 @@ class LoginState extends State<Login> {
                   onChanged: (data) {
                     widget.password = data;
                   },
+                  // ignore: body_might_complete_normally_nullable
                   validator: (data) {
                     if (data!.isEmpty) {
                       return 'Field is Required';
@@ -283,7 +285,7 @@ class LoginState extends State<Login> {
                             color: fontSecondaryColor),
                       ),
                       InkWell(
-                        onTap: () => Navigator.pushReplacement(
+                        onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => SignUp(),

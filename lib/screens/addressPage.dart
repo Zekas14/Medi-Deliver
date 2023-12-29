@@ -22,14 +22,6 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends State<AddressPage> {
-  ThemeMode _themeMode = ThemeMode.system;
-
-  void _toggleTheme(ThemeMode themeMode) {
-    setState(() {
-      _themeMode = themeMode;
-    });
-  }
-
   bool _isUploading = false;
   String? name;
   String? phone;
@@ -90,6 +82,7 @@ class _AddressPageState extends State<AddressPage> {
                     height: 10,
                   ),
                   fieldContainer(
+                      // ignore: body_might_complete_normally_nullable
                       validator: (data) {
                         if (data!.isEmpty) {
                           return 'Field is Empty';
@@ -106,6 +99,7 @@ class _AddressPageState extends State<AddressPage> {
                     prefixIconPath: 'asset/images/call.png',
                     hintText: loggedInUser.phoneNumber,
                     maxLength: 11,
+                    // ignore: body_might_complete_normally_nullable
                     validator: (data) {
                       if (data!.isEmpty) {
                         return 'Field is Empty';
@@ -121,6 +115,7 @@ class _AddressPageState extends State<AddressPage> {
                     textInputType: TextInputType.phone,
                   ),
                   fieldContainer(
+                      // ignore: body_might_complete_normally_nullable
                       validator: (data) {
                         if (data!.isEmpty) {
                           return 'Field is Empty';
@@ -216,6 +211,7 @@ class _AddressPageState extends State<AddressPage> {
         user.profileImage = imageUrl;
 
         // Notify listeners to trigger a rebuild
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
         Provider.of<UserProvider>(context, listen: false).notifyListeners();
       } catch (error) {
         // Handle errors (e.g., show an error message)
@@ -269,6 +265,7 @@ class _AddressPageState extends State<AddressPage> {
         }
 
         // Notify listeners to trigger a rebuild
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
         Provider.of<UserProvider>(context, listen: false).notifyListeners();
       } catch (error) {
         print('Error updating user data: $error');

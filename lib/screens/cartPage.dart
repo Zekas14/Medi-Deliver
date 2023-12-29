@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medi_deliver/component/customButton.dart';
 import 'package:medi_deliver/core/ExtensionFunctions.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
-import 'package:medi_deliver/model/cartItemModel.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:medi_deliver/screens/invoice.dart';
 import 'package:provider/provider.dart';

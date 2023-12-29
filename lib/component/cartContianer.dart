@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medi_deliver/core/constants.dart';
-import 'package:medi_deliver/dummy_product_list.dart';
 import 'package:medi_deliver/model/cartItemModel.dart';
 import 'package:medi_deliver/provider/model/cartProvider.dart';
 import 'package:provider/provider.dart';
@@ -101,6 +100,7 @@ class _ItemContianerState extends State<CartContainer> {
                         if (widget.cartItem.quantity > 1) {
                           widget.cartItem.decrementQuantity();
                           Provider.of<Cart>(context, listen: false)
+                              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                               .notifyListeners();
                         } else {
                           Provider.of<Cart>(context, listen: false)
